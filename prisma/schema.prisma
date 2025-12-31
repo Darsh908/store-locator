@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// For MVP: We'll skip User model and auth for now
+// Later: Add User model with authentication
+
+model Company {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique // Public URL slug (e.g., "acme-corp")
+  domainWhitelist String[] // Array of allowed domains for iframe embedding
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  stores        Store[]
+  
+  @@index([slug])
+}
+
+model Store {
+  id            String   @id @default(cuid())
+  companyId     String
+  name          String
+  address       String
+  latitude      Float?
+  longitude     Float?
+  phone         String?
+  email         String?
+  website       String?
+  description   String?
+  // For dynamic filters - store as JSON
+  customData    Json?    // Flexible JSON field for additional store data
+  geocoded      Boolean  @default(false) // Whether address has been geocoded
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  
+  @@index([companyId])
+  @@index([latitude, longitude])
+}
