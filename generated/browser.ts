@@ -27,3 +27,8 @@ export type Company = Prisma.CompanyModel
  * 
  */
 export type Store = Prisma.StoreModel
+/**
+ * Model Filter
+ * 
+ */
+export type Filter = Prisma.FilterModel

@@ -14,37 +14,56 @@ datasource db {
 // Later: Add User model with authentication
 
 model Company {
-  id            String   @id @default(cuid())
-  name          String
-  slug          String   @unique // Public URL slug (e.g., "acme-corp")
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique // Public URL slug (e.g., "acme-corp")
   domainWhitelist String[] // Array of allowed domains for iframe embedding
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  stores        Store[]
-  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  stores  Store[]
+  filters Filter[]
+
   @@index([slug])
 }
 
 model Store {
-  id            String   @id @default(cuid())
-  companyId     String
-  name          String
-  address       String
-  latitude      Float?
-  longitude     Float?
-  phone         String?
-  email         String?
-  website       String?
-  description   String?
+  id          String   @id @default(cuid())
+  companyId   String
+  name        String
+  address     String
+  latitude    Float?
+  longitude   Float?
+  phone       String?
+  email       String?
+  website     String?
+  description String?
   // For dynamic filters - store as JSON
-  customData    Json?    // Flexible JSON field for additional store data
-  geocoded      Boolean  @default(false) // Whether address has been geocoded
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  
+  customData  Json? // Flexible JSON field for additional store data
+  geocoded    Boolean  @default(false) // Whether address has been geocoded
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
   @@index([companyId])
   @@index([latitude, longitude])
+}
+
+model Filter {
+  id          String   @id @default(cuid())
+  companyId   String
+  fieldName   String // Field name (can be from customData or standard field)
+  displayName String // Display name for the filter
+  filterType  String // "select", "multiselect", "text", "range", etc.
+  options     Json? // Filter options/configuration (e.g., for select dropdowns)
+  order       Int      @default(0) // Display order
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, fieldName])
+  @@index([companyId])
 }

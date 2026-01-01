@@ -10,4 +10,5 @@
  */
 export type * from './models/Company.ts'
 export type * from './models/Store.ts'
+export type * from './models/Filter.ts'
 export type * from './commonInputTypes.ts'

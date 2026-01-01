@@ -22,7 +22,10 @@ const defaultCenter = {
 export default function StoreLocatorPage() {
   const params = useParams();
   const [stores, setStores] = useState([]);
+  const [allStores, setAllStores] = useState([]); // All stores before filtering
   const [company, setCompany] = useState(null);
+  const [filters, setFilters] = useState([]);
+  const [filterValues, setFilterValues] = useState({}); // Current filter values
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [mapError, setMapError] = useState(null);
@@ -78,7 +81,20 @@ export default function StoreLocatorPage() {
       }
       const data = await res.json();
       setCompany(data.company);
+      setAllStores(data.stores || []);
+      setFilters(data.filters || []);
       setStores(data.stores || []);
+
+      // Initialize filter values
+      const initialFilterValues = {};
+      (data.filters || []).forEach((filter) => {
+        if (filter.filterType === "multiselect") {
+          initialFilterValues[filter.fieldName] = [];
+        } else {
+          initialFilterValues[filter.fieldName] = "";
+        }
+      });
+      setFilterValues(initialFilterValues);
 
       // Set map center to first store or default
       if (data.stores && data.stores.length > 0) {
@@ -148,22 +164,89 @@ export default function StoreLocatorPage() {
     }
   };
 
-  // Filter stores based on search query
-  const filteredStores = stores.filter((store) => {
-    if (!searchQuery.trim()) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      store.name?.toLowerCase().includes(query) ||
-      store.address?.toLowerCase().includes(query) ||
-      store.phone?.toLowerCase().includes(query) ||
-      store.description?.toLowerCase().includes(query)
-    );
-  });
+  // Apply filters to stores
+  useEffect(() => {
+    let filtered = [...allStores];
+
+    // Apply search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (store) =>
+          store.name?.toLowerCase().includes(query) ||
+          store.address?.toLowerCase().includes(query) ||
+          store.phone?.toLowerCase().includes(query) ||
+          store.description?.toLowerCase().includes(query)
+      );
+    }
+
+    // Apply dynamic filters
+    filters.forEach((filter) => {
+      if (!filter.isActive) return;
+
+      const filterValue = filterValues[filter.fieldName];
+      if (
+        !filterValue ||
+        (Array.isArray(filterValue) && filterValue.length === 0)
+      ) {
+        return; // Skip empty filters
+      }
+
+      filtered = filtered.filter((store) => {
+        // Get field value (from standard field or customData)
+        let fieldValue =
+          store[filter.fieldName] ||
+          (store.customData &&
+            typeof store.customData === "object" &&
+            store.customData[filter.fieldName]);
+
+        if (fieldValue === null || fieldValue === undefined) {
+          return false;
+        }
+
+        // Convert to string for comparison
+        const valueStr = String(fieldValue).toLowerCase();
+
+        switch (filter.filterType) {
+          case "select":
+            return valueStr === String(filterValue).toLowerCase();
+          case "multiselect":
+            return (
+              Array.isArray(filterValue) && filterValue.includes(fieldValue)
+            );
+          case "text":
+            return valueStr.includes(String(filterValue).toLowerCase());
+          case "checkbox":
+            return filterValue === true || filterValue === "true";
+          default:
+            return true;
+        }
+      });
+    });
+
+    setStores(filtered);
+  }, [allStores, searchQuery, filterValues, filters]);
 
   // Get stores with valid coordinates for display
-  const validStores = filteredStores.filter(
+  const validStores = stores.filter(
     (store) => store.latitude && store.longitude
   );
+
+  // Get unique values for filter options
+  const getFilterOptions = (filter) => {
+    const values = new Set();
+    allStores.forEach((store) => {
+      const fieldValue =
+        store[filter.fieldName] ||
+        (store.customData &&
+          typeof store.customData === "object" &&
+          store.customData[filter.fieldName]);
+      if (fieldValue !== null && fieldValue !== undefined) {
+        values.add(String(fieldValue));
+      }
+    });
+    return Array.from(values).sort();
+  };
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
@@ -348,7 +431,7 @@ export default function StoreLocatorPage() {
                 placeholder="Search locations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
               />
               <svg
                 className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
@@ -371,6 +454,108 @@ export default function StoreLocatorPage() {
               </p>
             )}
           </div>
+
+          {/* Filters */}
+          {filters.length > 0 && (
+            <div className="p-4 border-b bg-gray-50 max-h-64 overflow-y-auto">
+              <h3 className="font-semibold text-sm text-gray-700 mb-3">
+                Filters
+              </h3>
+              <div className="space-y-3">
+                {filters.map((filter) => {
+                  const options = getFilterOptions(filter);
+                  return (
+                    <div key={filter.id}>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                        {filter.displayName}
+                      </label>
+                      {filter.filterType === "select" && (
+                        <select
+                          value={filterValues[filter.fieldName] || ""}
+                          onChange={(e) =>
+                            setFilterValues({
+                              ...filterValues,
+                              [filter.fieldName]: e.target.value,
+                            })
+                          }
+                          className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-700"
+                        >
+                          <option value="">All</option>
+                          {options.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                      {filter.filterType === "multiselect" && (
+                        <div className="space-y-1 max-h-32 overflow-y-auto text-gray-700">
+                          {options.map((option) => (
+                            <label
+                              key={option}
+                              className="flex items-center text-sm"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={
+                                  filterValues[filter.fieldName]?.includes(
+                                    option
+                                  ) || false
+                                }
+                                onChange={(e) => {
+                                  const current =
+                                    filterValues[filter.fieldName] || [];
+                                  const newValue = e.target.checked
+                                    ? [...current, option]
+                                    : current.filter((v) => v !== option);
+                                  setFilterValues({
+                                    ...filterValues,
+                                    [filter.fieldName]: newValue,
+                                  });
+                                }}
+                                className="mr-2"
+                              />
+                              <span className="text-gray-700">{option}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                      {filter.filterType === "text" && (
+                        <input
+                          type="text"
+                          value={filterValues[filter.fieldName] || ""}
+                          onChange={(e) =>
+                            setFilterValues({
+                              ...filterValues,
+                              [filter.fieldName]: e.target.value,
+                            })
+                          }
+                          placeholder={`Filter by ${filter.displayName}`}
+                          className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-700"
+                        />
+                      )}
+                      {filter.filterType === "checkbox" && (
+                        <label className="flex items-center text-sm">
+                          <input
+                            type="checkbox"
+                            checked={filterValues[filter.fieldName] || false}
+                            onChange={(e) =>
+                              setFilterValues({
+                                ...filterValues,
+                                [filter.fieldName]: e.target.checked,
+                              })
+                            }
+                            className="mr-2"
+                          />
+                          <span className="text-gray-700">Yes</span>
+                        </label>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Store List */}
           <div className="flex-1 overflow-y-auto">

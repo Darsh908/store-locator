@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Company: 'Company',
-  Store: 'Store'
+  Store: 'Store',
+  Filter: 'Filter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "company" | "store"
+    modelProps: "company" | "store" | "filter"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Filter: {
+      payload: Prisma.$FilterPayload<ExtArgs>
+      fields: Prisma.FilterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FilterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FilterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>
+        }
+        findFirst: {
+          args: Prisma.FilterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FilterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>
+        }
+        findMany: {
+          args: Prisma.FilterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>[]
+        }
+        create: {
+          args: Prisma.FilterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>
+        }
+        createMany: {
+          args: Prisma.FilterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FilterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>[]
+        }
+        delete: {
+          args: Prisma.FilterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>
+        }
+        update: {
+          args: Prisma.FilterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>
+        }
+        deleteMany: {
+          args: Prisma.FilterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FilterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FilterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>[]
+        }
+        upsert: {
+          args: Prisma.FilterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FilterPayload>
+        }
+        aggregate: {
+          args: Prisma.FilterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFilter>
+        }
+        groupBy: {
+          args: Prisma.FilterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FilterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FilterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FilterCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -622,6 +697,22 @@ export const StoreScalarFieldEnum = {
 } as const
 
 export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
+
+
+export const FilterScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  fieldName: 'fieldName',
+  displayName: 'displayName',
+  filterType: 'filterType',
+  options: 'options',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FilterScalarFieldEnum = (typeof FilterScalarFieldEnum)[keyof typeof FilterScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -844,6 +935,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   company?: Prisma.CompanyOmit
   store?: Prisma.StoreOmit
+  filter?: Prisma.FilterOmit
 }
 
 /* Types for Logging */

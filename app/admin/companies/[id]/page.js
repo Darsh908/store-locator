@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 
@@ -51,7 +52,8 @@ export default function CompanyDetailPage() {
       return isNaN(num) ? null : num;
     };
 
-    return {
+    // Standard fields that go to database columns
+    const standardFields = {
       name: row.name || row.Name || row.NAME || null,
       address:
         row.address ||
@@ -87,6 +89,65 @@ export default function CompanyDetailPage() {
       website: row.website || row.Website || row.WEBSITE || null,
       description:
         row.description || row.Description || row.DESCRIPTION || null,
+    };
+
+    // Collect all other fields into customData
+    const standardFieldKeys = [
+      "name",
+      "Name",
+      "NAME",
+      "address",
+      "Address",
+      "ADDRESS",
+      "street",
+      "city",
+      "state",
+      "zip",
+      "latitude",
+      "Latitude",
+      "LATITUDE",
+      "lat",
+      "Lat",
+      "LAT",
+      "longitude",
+      "Longitude",
+      "LONGITUDE",
+      "lng",
+      "Lng",
+      "LNG",
+      "lon",
+      "Lon",
+      "LON",
+      "phone",
+      "Phone",
+      "PHONE",
+      "email",
+      "Email",
+      "EMAIL",
+      "website",
+      "Website",
+      "WEBSITE",
+      "description",
+      "Description",
+      "DESCRIPTION",
+    ];
+
+    const customData = {};
+    Object.keys(row).forEach((key) => {
+      // Skip empty values and standard fields
+      if (
+        row[key] !== null &&
+        row[key] !== undefined &&
+        row[key] !== "" &&
+        !standardFieldKeys.includes(key)
+      ) {
+        customData[key] = row[key];
+      }
+    });
+
+    return {
+      ...standardFields,
+      customData: Object.keys(customData).length > 0 ? customData : null,
     };
   };
 
@@ -236,18 +297,30 @@ export default function CompanyDetailPage() {
 
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Stores ({stores.length})</h2>
-            <button
-              onClick={() => setShowImportForm(!showImportForm)}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-            >
-              {showImportForm ? "Cancel" : "+ Import Stores"}
-            </button>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Stores ({stores.length})
+            </h2>
+            <div className="flex gap-2">
+              <Link
+                href={`/admin/companies/${params.id}/filters`}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+              >
+                Configure Filters
+              </Link>
+              <button
+                onClick={() => setShowImportForm(!showImportForm)}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                {showImportForm ? "Cancel" : "+ Import Stores"}
+              </button>
+            </div>
           </div>
 
           {showImportForm && (
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-semibold mb-2">Import Stores from File</h3>
+              <h3 className="font-semibold mb-2 text-gray-800">
+                Import Stores from File
+              </h3>
               <p className="text-sm text-gray-600 mb-2">
                 Supported formats: CSV, Excel (.xlsx, .xls)
               </p>
@@ -353,7 +426,9 @@ export default function CompanyDetailPage() {
         </div>
 
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Embed Code</h2>
+          <h2 className="text-xl font-semibold mb-4 text-gray-900">
+            Embed Code
+          </h2>
           <p className="text-sm text-gray-600 mb-4">
             Use this iframe code to embed the store locator on your website:
           </p>

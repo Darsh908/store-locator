@@ -20,6 +20,14 @@ export async function GET(request, { params }) {
             longitude: { not: null },
           },
         },
+        filters: {
+          where: {
+            isActive: true,
+          },
+          orderBy: {
+            order: "asc",
+          },
+        },
       },
     });
 
@@ -83,7 +91,7 @@ export async function GET(request, { params }) {
       }
     }
 
-    // Return company and stores data
+    // Return company, stores, and filters data
     return NextResponse.json({
       company: {
         id: company.id,
@@ -91,6 +99,7 @@ export async function GET(request, { params }) {
         slug: company.slug,
       },
       stores: company.stores,
+      filters: company.filters || [],
     });
   } catch (error) {
     console.error("Error fetching store locator:", error);
