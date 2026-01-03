@@ -19,6 +19,26 @@ const defaultCenter = {
   lng: -74.006,
 };
 
+const mapOptions = {
+  disableDefaultUI: false,
+  zoomControl: true,
+  streetViewControl: false,
+  mapTypeControl: false,
+  fullscreenControl: true,
+  styles: [
+    {
+      featureType: "all",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#616161" }],
+    },
+    {
+      featureType: "water",
+      elementType: "geometry",
+      stylers: [{ color: "#e9e9e9" }],
+    },
+  ],
+};
+
 export default function StoreLocatorPage() {
   const params = useParams();
   const [stores, setStores] = useState([]);
@@ -252,18 +272,32 @@ export default function StoreLocatorPage() {
 
   if (loading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-gray-600">Loading store locator...</div>
+      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-2 border-blue-600 border-t-transparent"></div>
+          </div>
+          <p className="text-slate-600 font-medium">Loading store locator...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <div className="text-red-600 font-semibold mb-2">Error</div>
-          <div className="text-gray-600">{error}</div>
+      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+        <div className="text-center max-w-md">
+          <div className="text-5xl mb-4">⚠️</div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">
+            Unable to Load
+          </h1>
+          <p className="text-slate-600 mb-6">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-all"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -271,9 +305,13 @@ export default function StoreLocatorPage() {
 
   if (!apiKey) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center text-red-600">
-          Google Maps API key not configured
+      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+        <div className="text-center max-w-md">
+          <div className="text-5xl mb-4">🔑</div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">
+            Configuration Error
+          </h1>
+          <p className="text-slate-600">Google Maps API key not configured</p>
         </div>
       </div>
     );
@@ -281,15 +319,14 @@ export default function StoreLocatorPage() {
 
   if (mapError) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center max-w-2xl px-4">
-          <div className="text-red-600 font-semibold mb-4 text-xl">
-            Google Maps Error
-          </div>
-          <div className="text-gray-700 mb-4">{mapError}</div>
-          <div className="text-sm text-gray-600 bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-left">
-            <p className="font-semibold mb-2">Common causes:</p>
-            <ul className="list-disc list-inside space-y-1">
+      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+        <div className="text-center max-w-2xl">
+          <div className="text-5xl mb-4">🗺️</div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Maps Error</h1>
+          <p className="text-slate-600 mb-6">{mapError}</p>
+          <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 text-left">
+            <p className="font-semibold text-slate-900 mb-3">Common causes:</p>
+            <ul className="list-disc list-inside space-y-2 text-sm text-slate-700 mb-4">
               <li>
                 API key has HTTP referrer restrictions that don't match this
                 domain
@@ -298,8 +335,8 @@ export default function StoreLocatorPage() {
               <li>API key has IP address restrictions</li>
               <li>Billing is not enabled on your Google Cloud project</li>
             </ul>
-            <p className="mt-3 font-semibold">How to fix:</p>
-            <ol className="list-decimal list-inside space-y-1 mt-1">
+            <p className="font-semibold text-slate-900 mb-3">How to fix:</p>
+            <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
               <li>
                 Go to{" "}
                 <a
@@ -312,28 +349,9 @@ export default function StoreLocatorPage() {
                 </a>
               </li>
               <li>Click on your API key</li>
-              <li>
-                Under "Application restrictions", add your domain:
-                <ul className="list-disc list-inside ml-4 mt-1">
-                  <li>
-                    For localhost:{" "}
-                    <code className="bg-gray-100 px-1 rounded">
-                      localhost:3000/*
-                    </code>
-                  </li>
-                  <li>
-                    For production:{" "}
-                    <code className="bg-gray-100 px-1 rounded">
-                      yourdomain.com/*
-                    </code>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                Under "API restrictions", ensure "Maps JavaScript API" is
-                enabled
-              </li>
-              <li>Save and wait a few minutes for changes to propagate</li>
+              <li>Under "Application restrictions", add your domain</li>
+              <li>Under "API restrictions", enable "Maps JavaScript API"</li>
+              <li>Save and wait a few minutes</li>
             </ol>
           </div>
         </div>
@@ -342,28 +360,40 @@ export default function StoreLocatorPage() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col">
-      <div className="bg-white border-b px-4 py-3 shadow-sm">
-        <h1 className="text-xl font-semibold text-gray-900">
-          {company?.name || "Store Locator"}
-        </h1>
-        {stores.length > 0 && (
-          <p className="text-sm text-gray-600 mt-1">
-            {stores.length} {stores.length === 1 ? "location" : "locations"}{" "}
-            found
-          </p>
-        )}
+    <div className="w-full h-screen flex flex-col bg-white">
+      {/* Header */}
+      <div className="bg-white border-b border-neutral-200/50 shadow-sm backdrop-blur-sm">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold text-sm">
+                📍
+              </div>
+              <h1 className="text-2xl font-bold text-slate-900">
+                {company?.name || "Store Locator"}
+              </h1>
+            </div>
+          </div>
+          {stores.length > 0 && (
+            <p className="text-sm text-slate-500 ml-11">
+              <span className="font-semibold text-slate-600">
+                {stores.length}
+              </span>{" "}
+              {stores.length === 1 ? "location" : "locations"} found
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Sidebar Toggle Button (Mobile) */}
+        {/* Mobile Toggle Button */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="md:hidden absolute top-4 left-4 z-10 bg-white p-2 rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50"
+          className="md:hidden absolute top-4 left-4 z-20 bg-white p-3 rounded-xl shadow-lg border border-neutral-200 hover:shadow-xl transition-all"
           aria-label="Toggle sidebar"
         >
           <svg
-            className="h-6 w-6 text-gray-600"
+            className="h-5 w-5 text-slate-700"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -389,7 +419,7 @@ export default function StoreLocatorPage() {
         {/* Backdrop (Mobile) */}
         {sidebarOpen && (
           <div
-            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-10"
+            className="md:hidden fixed inset-0 bg-black/30 z-10 backdrop-blur-sm"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -398,20 +428,19 @@ export default function StoreLocatorPage() {
         <div
           className={`${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 absolute md:relative w-full md:w-96 bg-white border-r flex flex-col z-20 md:z-auto transition-transform duration-300 ease-in-out h-full`}
+          } md:translate-x-0 absolute md:relative w-full md:w-96 bg-white border-r border-neutral-200/50 flex flex-col z-20 md:z-auto transition-transform duration-300 ease-in-out h-full shadow-lg md:shadow-none`}
         >
           {/* Search Bar */}
-          <div className="p-4 border-b">
-            {/* Close button for mobile */}
-            <div className="flex items-center justify-between mb-2 md:hidden">
-              <h2 className="font-semibold text-gray-900">Locations</h2>
+          <div className="p-5 border-b border-neutral-200/50 bg-gradient-to-b from-blue-50/50 to-transparent">
+            <div className="flex items-center justify-between mb-4 md:hidden">
+              <h2 className="font-bold text-slate-900">Locations</h2>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
                 aria-label="Close sidebar"
               >
                 <svg
-                  className="h-5 w-5 text-gray-600"
+                  className="h-5 w-5 text-slate-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -428,13 +457,13 @@ export default function StoreLocatorPage() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search locations..."
+                placeholder="Search by name, address..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 pl-10 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all text-slate-900 placeholder-slate-500"
               />
               <svg
-                className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                className="absolute left-3 top-3.5 h-5 w-5 text-slate-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -448,8 +477,10 @@ export default function StoreLocatorPage() {
               </svg>
             </div>
             {searchQuery && (
-              <p className="text-sm text-gray-600 mt-2">
-                {validStores.length}{" "}
+              <p className="text-xs text-slate-600 mt-3 font-medium">
+                <span className="text-blue-600 font-bold">
+                  {validStores.length}
+                </span>{" "}
                 {validStores.length === 1 ? "result" : "results"} found
               </p>
             )}
@@ -457,16 +488,16 @@ export default function StoreLocatorPage() {
 
           {/* Filters */}
           {filters.length > 0 && (
-            <div className="p-4 border-b bg-gray-50 max-h-64 overflow-y-auto">
-              <h3 className="font-semibold text-sm text-gray-700 mb-3">
-                Filters
+            <div className="p-5 border-b border-neutral-200/50 bg-gradient-to-b from-slate-50/50 to-transparent max-h-64 overflow-y-auto">
+              <h3 className="font-bold text-sm text-slate-900 mb-4 flex items-center gap-2">
+                <span>⚙️</span> Filters
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {filters.map((filter) => {
                   const options = getFilterOptions(filter);
                   return (
                     <div key={filter.id}>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
                         {filter.displayName}
                       </label>
                       {filter.filterType === "select" && (
@@ -478,7 +509,7 @@ export default function StoreLocatorPage() {
                               [filter.fieldName]: e.target.value,
                             })
                           }
-                          className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-700"
+                          className="w-full px-3 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-slate-900 transition-all"
                         >
                           <option value="">All</option>
                           {options.map((option) => (
@@ -489,11 +520,11 @@ export default function StoreLocatorPage() {
                         </select>
                       )}
                       {filter.filterType === "multiselect" && (
-                        <div className="space-y-1 max-h-32 overflow-y-auto text-gray-700">
+                        <div className="space-y-2 max-h-32 overflow-y-auto text-slate-700">
                           {options.map((option) => (
                             <label
                               key={option}
-                              className="flex items-center text-sm"
+                              className="flex items-center text-sm cursor-pointer hover:bg-blue-50/50 p-2 rounded transition-colors"
                             >
                               <input
                                 type="checkbox"
@@ -513,9 +544,11 @@ export default function StoreLocatorPage() {
                                     [filter.fieldName]: newValue,
                                   });
                                 }}
-                                className="mr-2"
+                                className="w-4 h-4 text-blue-600 rounded border-neutral-300 focus:ring-2 focus:ring-blue-500"
                               />
-                              <span className="text-gray-700">{option}</span>
+                              <span className="ml-2 text-slate-700">
+                                {option}
+                              </span>
                             </label>
                           ))}
                         </div>
@@ -531,11 +564,11 @@ export default function StoreLocatorPage() {
                             })
                           }
                           placeholder={`Filter by ${filter.displayName}`}
-                          className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-700"
+                          className="w-full px-3 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-slate-900 transition-all"
                         />
                       )}
                       {filter.filterType === "checkbox" && (
-                        <label className="flex items-center text-sm">
+                        <label className="flex items-center text-sm cursor-pointer">
                           <input
                             type="checkbox"
                             checked={filterValues[filter.fieldName] || false}
@@ -545,9 +578,9 @@ export default function StoreLocatorPage() {
                                 [filter.fieldName]: e.target.checked,
                               })
                             }
-                            className="mr-2"
+                            className="w-4 h-4 text-blue-600 rounded border-neutral-300 focus:ring-2 focus:ring-blue-500"
                           />
-                          <span className="text-gray-700">Yes</span>
+                          <span className="ml-2 text-slate-700">Yes</span>
                         </label>
                       )}
                     </div>
@@ -560,36 +593,42 @@ export default function StoreLocatorPage() {
           {/* Store List */}
           <div className="flex-1 overflow-y-auto">
             {validStores.length === 0 ? (
-              <div className="p-4 text-center text-gray-500">
-                {searchQuery
-                  ? "No locations found matching your search"
-                  : "No locations available"}
+              <div className="p-8 text-center text-slate-500 flex flex-col items-center justify-center h-full">
+                <div className="text-4xl mb-3">📍</div>
+                <p className="font-medium">
+                  {searchQuery
+                    ? "No locations found"
+                    : "No locations available"}
+                </p>
+                {searchQuery && (
+                  <p className="text-sm mt-1">Try adjusting your search</p>
+                )}
               </div>
             ) : (
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-neutral-200/50">
                 {validStores.map((store) => (
                   <button
                     key={store.id}
                     onClick={() => handleStoreClick(store)}
-                    className={`w-full text-left p-4 hover:bg-gray-50 transition-colors ${
+                    className={`w-full text-left p-4 hover:bg-blue-50/50 transition-all duration-200 border-l-4 ${
                       selectedStore?.id === store.id
-                        ? "bg-blue-50 border-l-4 border-l-blue-600"
-                        : ""
+                        ? "bg-blue-50/80 border-l-blue-600"
+                        : "border-l-transparent"
                     }`}
                   >
-                    <h3 className="font-semibold text-gray-900 mb-1">
+                    <h3 className="font-semibold text-slate-900 mb-1.5">
                       {store.name}
                     </h3>
                     {store.address && (
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-slate-600 mb-2 line-clamp-1">
                         {store.address}
                       </p>
                     )}
-                    <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                    <div className="flex flex-wrap gap-2 text-xs text-slate-500">
                       {store.phone && (
-                        <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded">
                           <svg
-                            className="h-4 w-4"
+                            className="h-3 w-3"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -604,7 +643,11 @@ export default function StoreLocatorPage() {
                           {store.phone}
                         </span>
                       )}
-                      {store.distance && <span>{store.distance}</span>}
+                      {store.distance && (
+                        <span className="bg-slate-100 px-2 py-1 rounded">
+                          {store.distance}
+                        </span>
+                      )}
                     </div>
                   </button>
                 ))}
@@ -626,13 +669,7 @@ export default function StoreLocatorPage() {
               zoom={stores.length === 1 ? 15 : 10}
               onLoad={onMapLoad}
               onUnmount={onMapUnmount}
-              options={{
-                disableDefaultUI: false,
-                zoomControl: true,
-                streetViewControl: false,
-                mapTypeControl: false,
-                fullscreenControl: true,
-              }}
+              options={mapOptions}
             >
               {validStores.map((store) => {
                 return (
@@ -656,48 +693,59 @@ export default function StoreLocatorPage() {
                   }}
                   onCloseClick={() => setSelectedStore(null)}
                 >
-                  <div className="p-2 max-w-xs">
-                    <h3 className="font-semibold text-lg mb-2">
+                  <div className="p-4 max-w-xs rounded-lg">
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">
                       {selectedStore.name}
                     </h3>
                     {selectedStore.address && (
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-slate-600 mb-3 flex items-start gap-2">
+                        <span className="mt-0.5">📍</span>
                         {selectedStore.address}
                       </p>
                     )}
                     {selectedStore.phone && (
-                      <p className="text-sm text-gray-600 mb-1">
-                        <span className="font-medium">Phone:</span>{" "}
-                        {selectedStore.phone}
+                      <p className="text-sm text-slate-600 mb-2 flex items-center gap-2">
+                        <span>📞</span>
+                        <a
+                          href={`tel:${selectedStore.phone}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {selectedStore.phone}
+                        </a>
                       </p>
                     )}
                     {selectedStore.email && (
-                      <p className="text-sm text-gray-600 mb-1">
-                        <span className="font-medium">Email:</span>{" "}
-                        {selectedStore.email}
+                      <p className="text-sm text-slate-600 mb-2 flex items-center gap-2">
+                        <span>✉️</span>
+                        <a
+                          href={`mailto:${selectedStore.email}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {selectedStore.email}
+                        </a>
                       </p>
                     )}
                     {selectedStore.website && (
-                      <p className="text-sm text-gray-600 mb-1">
-                        <span className="font-medium">Website:</span>{" "}
+                      <p className="text-sm text-slate-600 mb-3 flex items-center gap-2">
+                        <span>🌐</span>
                         <a
                           href={selectedStore.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
+                          className="text-blue-600 hover:underline truncate"
                         >
-                          {selectedStore.website}
+                          Visit
                         </a>
                       </p>
                     )}
                     {selectedStore.description && (
-                      <p className="text-sm text-gray-600 mb-3">
+                      <p className="text-sm text-slate-600 mb-4 border-t border-neutral-200 pt-3">
                         {selectedStore.description}
                       </p>
                     )}
                     <button
                       onClick={() => handleGetDirections(selectedStore)}
-                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
+                      className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all font-semibold text-sm"
                     >
                       Get Directions
                     </button>

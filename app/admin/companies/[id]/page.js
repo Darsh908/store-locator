@@ -262,178 +262,262 @@ export default function CompanyDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen p-8">
-        <div className="max-w-6xl mx-auto">Loading...</div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading company details...</p>
+        </div>
       </div>
     );
   }
 
   if (!company) {
     return (
-      <div className="min-h-screen p-8">
-        <div className="max-w-6xl mx-auto">Company not found</div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">❌</div>
+          <p className="text-slate-900 font-semibold">Company not found</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Header */}
+      <div className="bg-white border-b border-neutral-200/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
             onClick={() => router.push("/admin")}
-            className="text-blue-600 hover:underline mb-4"
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-4 transition-colors"
           >
-            ← Back to Companies
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Back to Companies
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">{company.name}</h1>
-          <p className="text-sm text-gray-500 mt-2">
-            Slug:{" "}
-            <code className="bg-gray-100 px-2 py-1 rounded">
-              {company.slug}
-            </code>
-          </p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold">
+              {company.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900">
+                {company.name}
+              </h1>
+              <p className="text-sm text-slate-600 mt-1">
+                Slug:{" "}
+                <code className="bg-slate-100 px-3 py-1 rounded-md font-mono text-blue-600">
+                  {company.slug}
+                </code>
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Stores ({stores.length})
-            </h2>
-            <div className="flex gap-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stores Section */}
+        <div className="bg-white rounded-2xl shadow-md border border-neutral-200/50 p-8 mb-8">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-1">
+                <span>📍</span> Stores ({stores.length})
+              </h2>
+              <p className="text-sm text-slate-600">
+                Manage and import your store locations
+              </p>
+            </div>
+            <div className="flex gap-3">
               <Link
                 href={`/admin/companies/${params.id}/filters`}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/30 font-semibold transition-all duration-300 flex items-center gap-2"
               >
-                Configure Filters
+                <span>⚙️</span> Configure Filters
               </Link>
               <button
                 onClick={() => setShowImportForm(!showImportForm)}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                className="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-lg hover:shadow-lg hover:shadow-green-500/30 font-semibold transition-all duration-300 flex items-center gap-2"
               >
-                {showImportForm ? "Cancel" : "+ Import Stores"}
+                <span>📤</span> {showImportForm ? "Cancel" : "Import Stores"}
               </button>
             </div>
           </div>
 
           {showImportForm && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-semibold mb-2 text-gray-800">
-                Import Stores from File
+            <div className="mb-8 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-200/50 animate-slide-down">
+              <h3 className="font-bold text-slate-900 mb-3 text-lg">
+                📥 Import Stores from File
               </h3>
-              <p className="text-sm text-gray-600 mb-2">
-                Supported formats: CSV, Excel (.xlsx, .xls)
-              </p>
-              <p className="text-sm text-gray-600 mb-4">
-                Required columns: <strong>name</strong>,{" "}
-                <strong>address</strong>
-                <br />
-                Optional columns: phone, email, website, description
-                <br />
-                <span className="text-blue-600">
-                  Optional coordinates: latitude/lat, longitude/lng/lon (if
-                  provided, geocoding will be skipped)
-                </span>
-              </p>
-              <input
-                type="file"
-                accept=".csv,.xlsx,.xls"
-                onChange={handleFileUpload}
-                disabled={uploading}
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              />
+              <div className="space-y-3 text-sm text-slate-700 mb-5">
+                <p>
+                  <span className="font-semibold">Supported formats:</span> CSV,
+                  Excel (.xlsx, .xls)
+                </p>
+                <p>
+                  <span className="font-semibold">Required columns:</span>{" "}
+                  <code className="bg-white px-2 py-1 rounded font-mono">
+                    name
+                  </code>
+                  ,{" "}
+                  <code className="bg-white px-2 py-1 rounded font-mono">
+                    address
+                  </code>
+                </p>
+                <p>
+                  <span className="font-semibold">Optional columns:</span>{" "}
+                  phone, email, website, description
+                </p>
+                <p className="text-blue-600">
+                  <span className="font-semibold">Optional coordinates:</span>{" "}
+                  latitude/lat, longitude/lng/lon (if provided, geocoding will
+                  be skipped)
+                </p>
+              </div>
+              <label className="flex items-center gap-3 p-4 border-2 border-dashed border-green-300 rounded-lg cursor-pointer hover:bg-white/50 transition-colors">
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                <div>
+                  <p className="font-semibold text-slate-900">
+                    Click to upload or drag and drop
+                  </p>
+                  <p className="text-xs text-slate-600">CSV or Excel files</p>
+                </div>
+                <input
+                  type="file"
+                  accept=".csv,.xlsx,.xls"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  className="hidden"
+                />
+              </label>
               {uploading && (
-                <p className="mt-2 text-sm text-gray-600">
-                  Uploading and geocoding addresses...
+                <p className="mt-3 text-sm text-green-700 font-medium animate-pulse">
+                  ⏳ Uploading and geocoding addresses...
                 </p>
               )}
             </div>
           )}
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Address
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {stores.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="4"
-                      className="px-6 py-4 text-center text-gray-500"
-                    >
-                      No stores yet. Import stores to get started.
-                    </td>
+          {stores.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-5xl mb-4">🏪</div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                No Stores Yet
+              </h3>
+              <p className="text-slate-600 mb-6">
+                Import stores to get started
+              </p>
+              {!showImportForm && (
+                <button
+                  onClick={() => setShowImportForm(true)}
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold transition-all inline-flex items-center gap-2"
+                >
+                  <span>📤</span> Import Stores
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-neutral-200">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Address
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Location
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Status
+                    </th>
                   </tr>
-                ) : (
-                  stores.map((store) => (
-                    <tr key={store.id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                </thead>
+                <tbody className="divide-y divide-neutral-200">
+                  {stores.map((store) => (
+                    <tr
+                      key={store.id}
+                      className="hover:bg-slate-50/50 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-semibold text-slate-900">
                           {store.name}
                         </div>
                         {store.phone && (
-                          <div className="text-sm text-gray-500">
-                            {store.phone}
+                          <div className="text-xs text-slate-600 mt-1">
+                            📞 {store.phone}
                           </div>
                         )}
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900">
+                        <div className="text-sm text-slate-700">
                           {store.address}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
                         {store.latitude && store.longitude ? (
-                          <>
+                          <code className="bg-blue-50 px-3 py-1 rounded font-mono text-blue-700">
                             {store.latitude.toFixed(4)},{" "}
                             {store.longitude.toFixed(4)}
-                          </>
+                          </code>
                         ) : (
-                          <span className="text-orange-600">Not geocoded</span>
+                          <span className="text-orange-600 font-medium">
+                            Not geocoded
+                          </span>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {store.geocoded ? (
-                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                            Geocoded
+                          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                            <span>✓</span> Geocoded
                           </span>
                         ) : (
-                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                            Pending
+                          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">
+                            <span>⏳</span> Pending
                           </span>
                         )}
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900">
-            Embed Code
+        {/* Embed Code Section */}
+        <div className="bg-white rounded-2xl shadow-md border border-neutral-200/50 p-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span>💻</span> Embed Code
           </h2>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-slate-600 mb-6">
             Use this iframe code to embed the store locator on your website:
           </p>
-          <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-            <pre>{`<iframe 
+          <div className="bg-slate-900 text-slate-100 p-6 rounded-xl font-mono text-sm overflow-x-auto border border-slate-700 mb-4">
+            <pre className="text-green-400">{`<iframe 
   src="${typeof window !== "undefined" ? window.location.origin : ""}/locator/${
               company.slug
             }"
@@ -443,9 +527,23 @@ export default function CompanyDetailPage() {
   style="border: 0;">
 </iframe>`}</pre>
           </div>
-          <p className="text-sm text-gray-500 mt-4">
-            Make sure your domain is whitelisted in the company settings for the
-            iframe to work.
+          <button
+            onClick={() => {
+              const code = `<iframe src="${
+                typeof window !== "undefined" ? window.location.origin : ""
+              }/locator/${
+                company.slug
+              }" width="100%" height="600" frameborder="0" style="border: 0;"></iframe>`;
+              navigator.clipboard.writeText(code);
+              alert("Embed code copied to clipboard!");
+            }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-all text-sm"
+          >
+            📋 Copy Code
+          </button>
+          <p className="text-xs text-slate-600 mt-4">
+            ✓ Make sure your domain is whitelisted in the company settings for
+            the iframe to work properly.
           </p>
         </div>
       </div>
