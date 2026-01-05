@@ -26,26 +26,42 @@ const mapOptions = {
   mapTypeControl: false,
   fullscreenControl: true,
   styles: [
-    {
-      featureType: "all",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#616161" }],
-    },
-    {
-      featureType: "water",
-      elementType: "geometry",
-      stylers: [{ color: "#e9e9e9" }],
-    },
+    { elementType: "geometry", stylers: [{ color: "#1d2c4d" }] },
+    { elementType: "labels.text.fill", stylers: [{ color: "#8ec3b9" }] },
+    { elementType: "labels.text.stroke", stylers: [{ color: "#1a3646" }] },
+    { featureType: "administrative.country", elementType: "geometry.stroke", stylers: [{ color: "#4b6878" }] },
+    { featureType: "administrative.land_parcel", elementType: "labels.text.fill", stylers: [{ color: "#64779e" }] },
+    { featureType: "administrative.province", elementType: "geometry.stroke", stylers: [{ color: "#4b6878" }] },
+    { featureType: "landscape.man_made", elementType: "geometry.stroke", stylers: [{ color: "#334e87" }] },
+    { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: "#023e58" }] },
+    { featureType: "poi", elementType: "geometry", stylers: [{ color: "#283d6a" }] },
+    { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#6f9ba5" }] },
+    { featureType: "poi", elementType: "labels.text.stroke", stylers: [{ color: "#1d2c4d" }] },
+    { featureType: "poi.park", elementType: "geometry.fill", stylers: [{ color: "#023e58" }] },
+    { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#3C7680" }] },
+    { featureType: "road", elementType: "geometry", stylers: [{ color: "#304a7d" }] },
+    { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#98a5be" }] },
+    { featureType: "road", elementType: "labels.text.stroke", stylers: [{ color: "#1d2c4d" }] },
+    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#2c6675" }] },
+    { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#255763" }] },
+    { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#b0d5ce" }] },
+    { featureType: "road.highway", elementType: "labels.text.stroke", stylers: [{ color: "#023e58" }] },
+    { featureType: "transit", elementType: "labels.text.fill", stylers: [{ color: "#98a5be" }] },
+    { featureType: "transit", elementType: "labels.text.stroke", stylers: [{ color: "#1d2c4d" }] },
+    { featureType: "transit.line", elementType: "geometry.fill", stylers: [{ color: "#283d6a" }] },
+    { featureType: "transit.station", elementType: "geometry", stylers: [{ color: "#3a4762" }] },
+    { featureType: "water", elementType: "geometry", stylers: [{ color: "#0e1626" }] },
+    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#4e6d70" }] },
   ],
 };
 
 export default function StoreLocatorPage() {
   const params = useParams();
   const [stores, setStores] = useState([]);
-  const [allStores, setAllStores] = useState([]); // All stores before filtering
+  const [allStores, setAllStores] = useState([]);
   const [company, setCompany] = useState(null);
   const [filters, setFilters] = useState([]);
-  const [filterValues, setFilterValues] = useState({}); // Current filter values
+  const [filterValues, setFilterValues] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [mapError, setMapError] = useState(null);
@@ -61,26 +77,19 @@ export default function StoreLocatorPage() {
     }
   }, [params.slug]);
 
-  // Listen for Google Maps API errors
   useEffect(() => {
     const handleScriptError = (event) => {
-      // Check if it's a Google Maps related error
       if (
         event.message?.includes("Google Maps") ||
         event.message?.includes("ApiTargetBlockedMapError") ||
         event.filename?.includes("maps.googleapis.com")
       ) {
-        setMapError(
-          "Google Maps API error detected. Please check your API key configuration."
-        );
+        setMapError("Google Maps API error detected.");
       }
     };
 
-    // Google Maps authentication failure callback
     window.gm_authFailure = () => {
-      setMapError(
-        "Google Maps API authentication failed. Please check your API key configuration."
-      );
+      setMapError("Google Maps API authentication failed.");
     };
 
     window.addEventListener("error", handleScriptError);
@@ -105,7 +114,6 @@ export default function StoreLocatorPage() {
       setFilters(data.filters || []);
       setStores(data.stores || []);
 
-      // Initialize filter values
       const initialFilterValues = {};
       (data.filters || []).forEach((filter) => {
         if (filter.filterType === "multiselect") {
@@ -116,14 +124,10 @@ export default function StoreLocatorPage() {
       });
       setFilterValues(initialFilterValues);
 
-      // Set map center to first store or default
       if (data.stores && data.stores.length > 0) {
         const firstStore = data.stores[0];
         if (firstStore.latitude && firstStore.longitude) {
-          setMapCenter({
-            lat: firstStore.latitude,
-            lng: firstStore.longitude,
-          });
+          setMapCenter({ lat: firstStore.latitude, lng: firstStore.longitude });
         }
       }
     } catch (error) {
@@ -136,7 +140,7 @@ export default function StoreLocatorPage() {
 
   const onMapLoad = useCallback((map) => {
     setMap(map);
-    setMapError(null); // Clear any previous errors
+    setMapError(null);
   }, []);
 
   const onMapUnmount = useCallback(() => {
@@ -144,34 +148,23 @@ export default function StoreLocatorPage() {
   }, []);
 
   const handleMapError = useCallback(() => {
-    setMapError(
-      "Google Maps failed to load. Please check your API key configuration."
-    );
+    setMapError("Google Maps failed to load.");
   }, []);
 
   const handleMarkerClick = (store) => {
     setSelectedStore(store);
-    // Center map on selected store
     if (map && store.latitude && store.longitude) {
-      map.panTo({
-        lat: store.latitude,
-        lng: store.longitude,
-      });
+      map.panTo({ lat: store.latitude, lng: store.longitude });
       map.setZoom(15);
     }
   };
 
   const handleStoreClick = (store) => {
     setSelectedStore(store);
-    // Center map on selected store
     if (map && store.latitude && store.longitude) {
-      map.panTo({
-        lat: store.latitude,
-        lng: store.longitude,
-      });
+      map.panTo({ lat: store.latitude, lng: store.longitude });
       map.setZoom(15);
     }
-    // Close sidebar on mobile after selection
     if (window.innerWidth < 768) {
       setSidebarOpen(false);
     }
@@ -184,11 +177,9 @@ export default function StoreLocatorPage() {
     }
   };
 
-  // Apply filters to stores
   useEffect(() => {
     let filtered = [...allStores];
 
-    // Apply search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -200,46 +191,22 @@ export default function StoreLocatorPage() {
       );
     }
 
-    // Apply dynamic filters
     filters.forEach((filter) => {
       if (!filter.isActive) return;
-
       const filterValue = filterValues[filter.fieldName];
-      if (
-        !filterValue ||
-        (Array.isArray(filterValue) && filterValue.length === 0)
-      ) {
-        return; // Skip empty filters
-      }
+      if (!filterValue || (Array.isArray(filterValue) && filterValue.length === 0)) return;
 
       filtered = filtered.filter((store) => {
-        // Get field value (from standard field or customData)
-        let fieldValue =
-          store[filter.fieldName] ||
-          (store.customData &&
-            typeof store.customData === "object" &&
-            store.customData[filter.fieldName]);
-
-        if (fieldValue === null || fieldValue === undefined) {
-          return false;
-        }
-
-        // Convert to string for comparison
+        let fieldValue = store[filter.fieldName] || (store.customData && typeof store.customData === "object" && store.customData[filter.fieldName]);
+        if (fieldValue === null || fieldValue === undefined) return false;
         const valueStr = String(fieldValue).toLowerCase();
 
         switch (filter.filterType) {
-          case "select":
-            return valueStr === String(filterValue).toLowerCase();
-          case "multiselect":
-            return (
-              Array.isArray(filterValue) && filterValue.includes(fieldValue)
-            );
-          case "text":
-            return valueStr.includes(String(filterValue).toLowerCase());
-          case "checkbox":
-            return filterValue === true || filterValue === "true";
-          default:
-            return true;
+          case "select": return valueStr === String(filterValue).toLowerCase();
+          case "multiselect": return Array.isArray(filterValue) && filterValue.includes(fieldValue);
+          case "text": return valueStr.includes(String(filterValue).toLowerCase());
+          case "checkbox": return filterValue === true || filterValue === "true";
+          default: return true;
         }
       });
     });
@@ -247,20 +214,12 @@ export default function StoreLocatorPage() {
     setStores(filtered);
   }, [allStores, searchQuery, filterValues, filters]);
 
-  // Get stores with valid coordinates for display
-  const validStores = stores.filter(
-    (store) => store.latitude && store.longitude
-  );
+  const validStores = stores.filter((store) => store.latitude && store.longitude);
 
-  // Get unique values for filter options
   const getFilterOptions = (filter) => {
     const values = new Set();
     allStores.forEach((store) => {
-      const fieldValue =
-        store[filter.fieldName] ||
-        (store.customData &&
-          typeof store.customData === "object" &&
-          store.customData[filter.fieldName]);
+      const fieldValue = store[filter.fieldName] || (store.customData && typeof store.customData === "object" && store.customData[filter.fieldName]);
       if (fieldValue !== null && fieldValue !== undefined) {
         values.add(String(fieldValue));
       }
@@ -272,12 +231,10 @@ export default function StoreLocatorPage() {
 
   if (loading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="w-full h-screen flex items-center justify-center bg-mesh">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-2 border-blue-600 border-t-transparent"></div>
-          </div>
-          <p className="text-slate-600 font-medium">Loading store locator...</p>
+          <div className="loader-ring mx-auto mb-4"></div>
+          <p className="text-slate-400 font-medium">Loading store locator...</p>
         </div>
       </div>
     );
@@ -285,16 +242,18 @@ export default function StoreLocatorPage() {
 
   if (error) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+      <div className="w-full h-screen flex items-center justify-center bg-mesh p-4">
         <div className="text-center max-w-md">
-          <div className="text-5xl mb-4">⚠️</div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">
-            Unable to Load
-          </h1>
-          <p className="text-slate-600 mb-6">{error}</p>
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-2">Unable to Load</h1>
+          <p className="text-slate-400 mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:shadow-lg transition-all"
           >
             Try Again
           </button>
@@ -305,13 +264,15 @@ export default function StoreLocatorPage() {
 
   if (!apiKey) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+      <div className="w-full h-screen flex items-center justify-center bg-mesh p-4">
         <div className="text-center max-w-md">
-          <div className="text-5xl mb-4">🔑</div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">
-            Configuration Error
-          </h1>
-          <p className="text-slate-600">Google Maps API key not configured</p>
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-2">Configuration Error</h1>
+          <p className="text-slate-400">Google Maps API key not configured</p>
         </div>
       </div>
     );
@@ -319,40 +280,22 @@ export default function StoreLocatorPage() {
 
   if (mapError) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+      <div className="w-full h-screen flex items-center justify-center bg-mesh p-4">
         <div className="text-center max-w-2xl">
-          <div className="text-5xl mb-4">🗺️</div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Maps Error</h1>
-          <p className="text-slate-600 mb-6">{mapError}</p>
-          <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 text-left">
-            <p className="font-semibold text-slate-900 mb-3">Common causes:</p>
-            <ul className="list-disc list-inside space-y-2 text-sm text-slate-700 mb-4">
-              <li>
-                API key has HTTP referrer restrictions that don't match this
-                domain
-              </li>
-              <li>Maps JavaScript API is not enabled for this API key</li>
-              <li>API key has IP address restrictions</li>
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-4">Maps Error</h1>
+          <p className="text-slate-400 mb-6">{mapError}</p>
+          <div className="glass-card rounded-xl p-6 text-left">
+            <p className="font-semibold text-white mb-3">Common causes:</p>
+            <ul className="list-disc list-inside space-y-2 text-sm text-slate-400 mb-4">
+              <li>API key has HTTP referrer restrictions</li>
+              <li>Maps JavaScript API is not enabled</li>
               <li>Billing is not enabled on your Google Cloud project</li>
             </ul>
-            <p className="font-semibold text-slate-900 mb-3">How to fix:</p>
-            <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
-              <li>
-                Go to{" "}
-                <a
-                  href="https://console.cloud.google.com/apis/credentials"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Google Cloud Console → Credentials
-                </a>
-              </li>
-              <li>Click on your API key</li>
-              <li>Under "Application restrictions", add your domain</li>
-              <li>Under "API restrictions", enable "Maps JavaScript API"</li>
-              <li>Save and wait a few minutes</li>
-            </ol>
           </div>
         </div>
       </div>
@@ -360,28 +303,28 @@ export default function StoreLocatorPage() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col bg-white">
+    <div className="w-full h-screen flex flex-col bg-slate-900">
       {/* Header */}
-      <div className="bg-white border-b border-neutral-200/50 shadow-sm backdrop-blur-sm">
+      <div className="glass-dark border-b border-white/5 z-30 relative">
         <div className="px-6 py-4">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold text-sm">
-                📍
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
               </div>
-              <h1 className="text-2xl font-bold text-slate-900">
-                {company?.name || "Store Locator"}
-              </h1>
+              <div>
+                <h1 className="text-xl font-bold text-white">{company?.name || "Store Locator"}</h1>
+                {stores.length > 0 && (
+                  <p className="text-sm text-slate-400">
+                    <span className="text-indigo-400 font-semibold">{stores.length}</span> {stores.length === 1 ? "location" : "locations"} found
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-          {stores.length > 0 && (
-            <p className="text-sm text-slate-500 ml-11">
-              <span className="font-semibold text-slate-600">
-                {stores.length}
-              </span>{" "}
-              {stores.length === 1 ? "location" : "locations"} found
-            </p>
-          )}
         </div>
       </div>
 
@@ -389,29 +332,14 @@ export default function StoreLocatorPage() {
         {/* Mobile Toggle Button */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="md:hidden absolute top-4 left-4 z-20 bg-white p-3 rounded-xl shadow-lg border border-neutral-200 hover:shadow-xl transition-all"
+          className="md:hidden absolute top-4 left-4 z-20 glass-dark p-3 rounded-xl hover:bg-white/10 transition-all"
           aria-label="Toggle sidebar"
         >
-          <svg
-            className="h-5 w-5 text-slate-700"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {sidebarOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>
@@ -419,38 +347,26 @@ export default function StoreLocatorPage() {
         {/* Backdrop (Mobile) */}
         {sidebarOpen && (
           <div
-            className="md:hidden fixed inset-0 bg-black/30 z-10 backdrop-blur-sm"
+            className="md:hidden fixed inset-0 bg-black/60 z-10 backdrop-blur-sm"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
         {/* Sidebar */}
         <div
-          className={`${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 absolute md:relative w-full md:w-96 bg-white border-r border-neutral-200/50 flex flex-col z-20 md:z-auto transition-transform duration-300 ease-in-out h-full shadow-lg md:shadow-none`}
+          className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 absolute md:relative w-full md:w-96 glass-dark border-r border-white/5 flex flex-col z-20 md:z-auto transition-transform duration-300 ease-in-out h-full`}
         >
           {/* Search Bar */}
-          <div className="p-5 border-b border-neutral-200/50 bg-gradient-to-b from-blue-50/50 to-transparent">
+          <div className="p-5 border-b border-white/5">
             <div className="flex items-center justify-between mb-4 md:hidden">
-              <h2 className="font-bold text-slate-900">Locations</h2>
+              <h2 className="font-bold text-white">Locations</h2>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 aria-label="Close sidebar"
               >
-                <svg
-                  className="h-5 w-5 text-slate-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                <svg className="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
@@ -460,95 +376,61 @@ export default function StoreLocatorPage() {
                 placeholder="Search by name, address..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-3 pl-10 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all text-slate-900 placeholder-slate-500"
+                className="input-modern pl-10!"
               />
-              <svg
-                className="absolute left-3 top-3.5 h-5 w-5 text-slate-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+              <svg className="absolute left-3 top-3.5 h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
             {searchQuery && (
-              <p className="text-xs text-slate-600 mt-3 font-medium">
-                <span className="text-blue-600 font-bold">
-                  {validStores.length}
-                </span>{" "}
-                {validStores.length === 1 ? "result" : "results"} found
+              <p className="text-xs text-slate-500 mt-3">
+                <span className="text-indigo-400 font-bold">{validStores.length}</span> {validStores.length === 1 ? "result" : "results"} found
               </p>
             )}
           </div>
 
           {/* Filters */}
           {filters.length > 0 && (
-            <div className="p-5 border-b border-neutral-200/50 bg-gradient-to-b from-slate-50/50 to-transparent max-h-64 overflow-y-auto">
-              <h3 className="font-bold text-sm text-slate-900 mb-4 flex items-center gap-2">
-                <span>⚙️</span> Filters
+            <div className="p-5 border-b border-white/5 max-h-64 overflow-y-auto">
+              <h3 className="font-bold text-sm text-white mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Filters
               </h3>
               <div className="space-y-4">
                 {filters.map((filter) => {
                   const options = getFilterOptions(filter);
                   return (
                     <div key={filter.id}>
-                      <label className="block text-xs font-semibold text-slate-700 mb-2">
-                        {filter.displayName}
-                      </label>
+                      <label className="block text-xs font-semibold text-slate-400 mb-2">{filter.displayName}</label>
                       {filter.filterType === "select" && (
                         <select
                           value={filterValues[filter.fieldName] || ""}
-                          onChange={(e) =>
-                            setFilterValues({
-                              ...filterValues,
-                              [filter.fieldName]: e.target.value,
-                            })
-                          }
-                          className="w-full px-3 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-slate-900 transition-all"
+                          onChange={(e) => setFilterValues({ ...filterValues, [filter.fieldName]: e.target.value })}
+                          className="input-modern text-sm py-2"
                         >
                           <option value="">All</option>
                           {options.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
+                            <option key={option} value={option}>{option}</option>
                           ))}
                         </select>
                       )}
                       {filter.filterType === "multiselect" && (
-                        <div className="space-y-2 max-h-32 overflow-y-auto text-slate-700">
+                        <div className="space-y-2 max-h-32 overflow-y-auto">
                           {options.map((option) => (
-                            <label
-                              key={option}
-                              className="flex items-center text-sm cursor-pointer hover:bg-blue-50/50 p-2 rounded transition-colors"
-                            >
+                            <label key={option} className="flex items-center text-sm cursor-pointer hover:bg-white/5 p-2 rounded transition-colors">
                               <input
                                 type="checkbox"
-                                checked={
-                                  filterValues[filter.fieldName]?.includes(
-                                    option
-                                  ) || false
-                                }
+                                checked={filterValues[filter.fieldName]?.includes(option) || false}
                                 onChange={(e) => {
-                                  const current =
-                                    filterValues[filter.fieldName] || [];
-                                  const newValue = e.target.checked
-                                    ? [...current, option]
-                                    : current.filter((v) => v !== option);
-                                  setFilterValues({
-                                    ...filterValues,
-                                    [filter.fieldName]: newValue,
-                                  });
+                                  const current = filterValues[filter.fieldName] || [];
+                                  const newValue = e.target.checked ? [...current, option] : current.filter((v) => v !== option);
+                                  setFilterValues({ ...filterValues, [filter.fieldName]: newValue });
                                 }}
-                                className="w-4 h-4 text-blue-600 rounded border-neutral-300 focus:ring-2 focus:ring-blue-500"
+                                className="w-4 h-4 rounded border-slate-600 bg-slate-700 text-indigo-500 focus:ring-indigo-500"
                               />
-                              <span className="ml-2 text-slate-700">
-                                {option}
-                              </span>
+                              <span className="ml-2 text-slate-300">{option}</span>
                             </label>
                           ))}
                         </div>
@@ -557,14 +439,9 @@ export default function StoreLocatorPage() {
                         <input
                           type="text"
                           value={filterValues[filter.fieldName] || ""}
-                          onChange={(e) =>
-                            setFilterValues({
-                              ...filterValues,
-                              [filter.fieldName]: e.target.value,
-                            })
-                          }
+                          onChange={(e) => setFilterValues({ ...filterValues, [filter.fieldName]: e.target.value })}
                           placeholder={`Filter by ${filter.displayName}`}
-                          className="w-full px-3 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-slate-900 transition-all"
+                          className="input-modern text-sm py-2"
                         />
                       )}
                       {filter.filterType === "checkbox" && (
@@ -572,15 +449,10 @@ export default function StoreLocatorPage() {
                           <input
                             type="checkbox"
                             checked={filterValues[filter.fieldName] || false}
-                            onChange={(e) =>
-                              setFilterValues({
-                                ...filterValues,
-                                [filter.fieldName]: e.target.checked,
-                              })
-                            }
-                            className="w-4 h-4 text-blue-600 rounded border-neutral-300 focus:ring-2 focus:ring-blue-500"
+                            onChange={(e) => setFilterValues({ ...filterValues, [filter.fieldName]: e.target.checked })}
+                            className="w-4 h-4 rounded border-slate-600 bg-slate-700 text-indigo-500 focus:ring-indigo-500"
                           />
-                          <span className="ml-2 text-slate-700">Yes</span>
+                          <span className="ml-2 text-slate-300">Yes</span>
                         </label>
                       )}
                     </div>
@@ -594,58 +466,37 @@ export default function StoreLocatorPage() {
           <div className="flex-1 overflow-y-auto">
             {validStores.length === 0 ? (
               <div className="p-8 text-center text-slate-500 flex flex-col items-center justify-center h-full">
-                <div className="text-4xl mb-3">📍</div>
-                <p className="font-medium">
-                  {searchQuery
-                    ? "No locations found"
-                    : "No locations available"}
-                </p>
-                {searchQuery && (
-                  <p className="text-sm mt-1">Try adjusting your search</p>
-                )}
+                <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  </svg>
+                </div>
+                <p className="font-medium text-slate-400">{searchQuery ? "No locations found" : "No locations available"}</p>
+                {searchQuery && <p className="text-sm mt-1">Try adjusting your search</p>}
               </div>
             ) : (
-              <div className="divide-y divide-neutral-200/50">
+              <div>
                 {validStores.map((store) => (
                   <button
                     key={store.id}
                     onClick={() => handleStoreClick(store)}
-                    className={`w-full text-left p-4 hover:bg-blue-50/50 transition-all duration-200 border-l-4 ${
+                    className={`w-full text-left p-5 hover:bg-white/5 transition-all duration-200 border-l-4 ${
                       selectedStore?.id === store.id
-                        ? "bg-blue-50/80 border-l-blue-600"
+                        ? "bg-indigo-500/10 border-l-indigo-500"
                         : "border-l-transparent"
                     }`}
                   >
-                    <h3 className="font-semibold text-slate-900 mb-1.5">
-                      {store.name}
-                    </h3>
+                    <h3 className="font-semibold text-white mb-1">{store.name}</h3>
                     {store.address && (
-                      <p className="text-sm text-slate-600 mb-2 line-clamp-1">
-                        {store.address}
-                      </p>
+                      <p className="text-sm text-slate-400 mb-2 line-clamp-1">{store.address}</p>
                     )}
-                    <div className="flex flex-wrap gap-2 text-xs text-slate-500">
+                    <div className="flex flex-wrap gap-2 text-xs">
                       {store.phone && (
-                        <span className="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded">
-                          <svg
-                            className="h-3 w-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                            />
+                        <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 text-slate-400">
+                          <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                           </svg>
                           {store.phone}
-                        </span>
-                      )}
-                      {store.distance && (
-                        <span className="bg-slate-100 px-2 py-1 rounded">
-                          {store.distance}
                         </span>
                       )}
                     </div>
@@ -658,11 +509,7 @@ export default function StoreLocatorPage() {
 
         {/* Map */}
         <div className="flex-1 relative">
-          <LoadScript
-            googleMapsApiKey={apiKey}
-            onError={handleMapError}
-            onLoad={() => setMapError(null)}
-          >
+          <LoadScript googleMapsApiKey={apiKey} onError={handleMapError} onLoad={() => setMapError(null)}>
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={mapCenter}
@@ -671,32 +518,22 @@ export default function StoreLocatorPage() {
               onUnmount={onMapUnmount}
               options={mapOptions}
             >
-              {validStores.map((store) => {
-                return (
-                  <Marker
-                    key={store.id}
-                    position={{
-                      lat: store.latitude,
-                      lng: store.longitude,
-                    }}
-                    onClick={() => handleMarkerClick(store)}
-                    title={store.name}
-                  />
-                );
-              })}
+              {validStores.map((store) => (
+                <Marker
+                  key={store.id}
+                  position={{ lat: store.latitude, lng: store.longitude }}
+                  onClick={() => handleMarkerClick(store)}
+                  title={store.name}
+                />
+              ))}
 
               {selectedStore && (
                 <InfoWindow
-                  position={{
-                    lat: selectedStore.latitude,
-                    lng: selectedStore.longitude,
-                  }}
+                  position={{ lat: selectedStore.latitude, lng: selectedStore.longitude }}
                   onCloseClick={() => setSelectedStore(null)}
                 >
-                  <div className="p-4 max-w-xs rounded-lg">
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">
-                      {selectedStore.name}
-                    </h3>
+                  <div className="p-4 max-w-xs">
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">{selectedStore.name}</h3>
                     {selectedStore.address && (
                       <p className="text-sm text-slate-600 mb-3 flex items-start gap-2">
                         <span className="mt-0.5">📍</span>
@@ -706,46 +543,27 @@ export default function StoreLocatorPage() {
                     {selectedStore.phone && (
                       <p className="text-sm text-slate-600 mb-2 flex items-center gap-2">
                         <span>📞</span>
-                        <a
-                          href={`tel:${selectedStore.phone}`}
-                          className="text-blue-600 hover:underline"
-                        >
-                          {selectedStore.phone}
-                        </a>
+                        <a href={`tel:${selectedStore.phone}`} className="text-indigo-600 hover:underline">{selectedStore.phone}</a>
                       </p>
                     )}
                     {selectedStore.email && (
                       <p className="text-sm text-slate-600 mb-2 flex items-center gap-2">
                         <span>✉️</span>
-                        <a
-                          href={`mailto:${selectedStore.email}`}
-                          className="text-blue-600 hover:underline"
-                        >
-                          {selectedStore.email}
-                        </a>
+                        <a href={`mailto:${selectedStore.email}`} className="text-indigo-600 hover:underline">{selectedStore.email}</a>
                       </p>
                     )}
                     {selectedStore.website && (
                       <p className="text-sm text-slate-600 mb-3 flex items-center gap-2">
                         <span>🌐</span>
-                        <a
-                          href={selectedStore.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline truncate"
-                        >
-                          Visit
-                        </a>
+                        <a href={selectedStore.website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">Visit Website</a>
                       </p>
                     )}
                     {selectedStore.description && (
-                      <p className="text-sm text-slate-600 mb-4 border-t border-neutral-200 pt-3">
-                        {selectedStore.description}
-                      </p>
+                      <p className="text-sm text-slate-600 mb-4 border-t border-slate-200 pt-3">{selectedStore.description}</p>
                     )}
                     <button
                       onClick={() => handleGetDirections(selectedStore)}
-                      className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transition-all font-semibold text-sm"
+                      className="w-full px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold text-sm"
                     >
                       Get Directions
                     </button>
