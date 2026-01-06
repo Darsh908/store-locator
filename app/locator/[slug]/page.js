@@ -7,7 +7,6 @@ import {
   LoadScript,
   Marker,
   InfoWindow,
-  Circle,
 } from "@react-google-maps/api";
 
 const mapContainerStyle = {
@@ -452,29 +451,12 @@ export default function StoreLocatorPage() {
         setMapCenter({ lat: newLat, lng: newLng });
         
         if (map) {
-          const circle = new window.google.maps.Circle({
-            center: { lat: newLat, lng: newLng },
-            radius: radius * 1000,
-          });
-          map.fitBounds(circle.getBounds());
-          // Optional: slight zoom out for better view
-          const currentZoom = map.getZoom();
-          if (currentZoom > 12) map.setZoom(12);
+          map.panTo({ lat: newLat, lng: newLng });
+          map.setZoom(12);
         }
       }
     });
   };
-
-  // Update bounds when radius changes
-  useEffect(() => {
-    if (map && latitude && longitude) {
-      const circle = new window.google.maps.Circle({
-        center: { lat: latitude, lng: longitude },
-        radius: radius * 1000,
-      });
-      map.fitBounds(circle.getBounds());
-    }
-  }, [radius, map, latitude, longitude]);
 
   useEffect(() => {
     const handleScriptError = (event) => {
@@ -1152,23 +1134,6 @@ export default function StoreLocatorPage() {
                     }}
                     zIndex={999}
                   />
-                  {/* Only show circle when adjusting radius or dropdown is open */}
-                  {(openDropdown === 'radius' || sidebarOpen) && (
-                    <Circle
-                      center={{ lat: latitude, lng: longitude }}
-                      radius={radius * 1000}
-                      options={{
-                        fillColor: "#6366f1",
-                        fillOpacity: 0.1,
-                        strokeColor: "#6366f1",
-                        strokeOpacity: 0.8,
-                        strokeWeight: 2,
-                        clickable: false,
-                        editable: false,
-                        zIndex: 1,
-                      }}
-                    />
-                  )}
                 </>
               )}
 

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Store ERP Mind Map</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+        }
+        
+        #mindmap {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .node circle {
+            stroke-width: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .node:hover circle {
+            stroke-width: 5px;
+            filter: brightness(1.1);
+        }
+        
+        .node text {
+            font-size: 12px;
+            font-weight: 500;
+            pointer-events: none;
+        }
+        
+        .link {
+            fill: none;
+            stroke: #999;
+            stroke-width: 2px;
+            stroke-opacity: 0.6;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 300px;
+            z-index: 1000;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+        
+        .controls button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .controls button:hover {
+            background: #5568d3;
+        }
+        
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 13px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏢 Retail Store ERP Ecosystem</h1>
+        <p>Complete Feature Mind Map - From Store Locator to Full ERP</p>
+    </div>
+    
+    <div class="controls">
+        <button onclick="expandAll()">Expand All</button>
+        <button onclick="collapseAll()">Collapse All</button>
+        <button onclick="resetZoom()">Reset View</button>
+        <button onclick="downloadSVG()">Download SVG</button>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #667eea;"></div>
+            <span>Core Module</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #f093fb;"></div>
+            <span>Customer Facing</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #4facfe;"></div>
+            <span>Operations</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #43e97b;"></div>
+            <span>Analytics</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #fa709a;"></div>
+            <span>Gap Filler 🎯</span>
+        </div>
+    </div>
+    
+    <svg id="mindmap"></svg>
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const data = {
+            name: "Retail Store ERP",
+            type: "root",
+            description: "Complete end-to-end solution for multi-location retail businesses",
+            children: [
+                {
+                    name: "Store Locator Core",
+                    type: "core",
+                    description: "Foundation: Interactive maps, search, and basic store information",
+                    children: [
+                        { name: "Interactive Maps", type: "core", description: "Google Maps integration with custom markers" },
+                        { name: "Store Search", type: "core", description: "Search by address, ZIP, city, radius" },
+                        { name: "Get Directions", type: "core", description: "Navigation to stores" },
+                        { name: "Store Details", type: "core", description: "Hours, contact, photos, amenities" },
+                        { name: "Dynamic Filters", type: "core", description: "Filter by type, services, hours" },
+                        { name: "Domain Security", type: "core", description: "Secure iframe embedding" },
+                        { name: "Multi-language", type: "core", description: "International support" },
+                        { name: "Mobile Responsive", type: "core", description: "Works on all devices" }
+                    ]
+                },
+                {
+                    name: "Customer Experience",
+                    type: "customer",
+                    description: "Tools that enhance the customer journey",
+                    children: [
+                        { name: "Appointment Booking", type: "customer", description: "Schedule services per location" },
+                        { name: "Waitlist Management", type: "customer", description: "Virtual queuing system" },
+                        { name: "Check-in Rewards", type: "customer", description: "Loyalty for store visits" },
+                        { name: "Store Reviews", type: "customer", description: "Location-specific feedback" },
+                        { name: "Product Availability", type: "gap", description: "🎯 See real-time stock at each store" },
+                        { name: "BOPIS System", type: "gap", description: "🎯 Buy online, pickup in store" },
+                        { name: "Reserve & Hold", type: "customer", description: "Hold items at specific stores" },
+                        { name: "Save Favorites", type: "customer", description: "Bookmark preferred locations" },
+                        { name: "Event Calendar", type: "customer", description: "Store events and workshops" },
+                        { name: "Virtual Tours", type: "customer", description: "360° store previews" }
+                    ]
+                },
+                {
+                    name: "Inventory Management",
+                    type: "operations",
+                    description: "Multi-location inventory control",
+                    children: [
+                        { name: "Real-time Stock Sync", type: "gap", description: "🎯 Live inventory across all locations" },
+                        { name: "Product Locator", type: "gap", description: "🎯 Find items across store network" },
+                        { name: "Inter-store Transfers", type: "operations", description: "Move stock between locations" },
+                        { name: "Low Stock Alerts", type: "operations", description: "Automated reorder triggers" },
+                        { name: "Receiving Tracking", type: "operations", description: "Track deliveries per store" },
+                        { name: "Supplier Management", type: "operations", description: "Manage vendors by location" },
+                        { name: "Inventory Forecasting", type: "analytics", description: "AI-powered demand prediction" },
+                        { name: "Batch Tracking", type: "operations", description: "Lot and expiry management" }
+                    ]
+                },
+                {
+                    name: "Workforce Management",
+                    type: "operations",
+                    description: "Staff scheduling and operations",
+                    children: [
+                        { name: "Employee Scheduling", type: "operations", description: "Shift management per store" },
+                        { name: "Time & Attendance", type: "operations", description: "Clock in/out tracking" },
+                        { name: "Shift Swapping", type: "operations", description: "Employee self-service" },
+                        { name: "Labor Cost Optimization", type: "gap", description: "🎯 AI-powered staffing recommendations" },
+                        { name: "Task Assignment", type: "operations", description: "Daily task distribution" },
+                        { name: "Training Module", type: "operations", description: "Employee onboarding and upskilling" },
+                        { name: "Performance Tracking", type: "analytics", description: "KPIs per employee" },
+                        { name: "Payroll Integration", type: "operations", description: "Sync with payroll systems" }
+                    ]
+                },
+                {
+                    name: "Analytics & Intelligence",
+                    type: "analytics",
+                    description: "Data-driven insights and reporting",
+                    children: [
+                        { name: "Store Performance", type: "analytics", description: "Sales, traffic, conversion by location" },
+                        { name: "Customer Heatmaps", type: "analytics", description: "Search pattern visualization" },
+                        { name: "AI Site Selection", type: "gap", description: "🎯 ML-powered new location recommendations" },
+                        { name: "Gap Analysis", type: "gap", description: "🎯 Identify underserved markets" },
+                        { name: "Competitor Mapping", type: "gap", description: "🎯 Track competitive locations" },
+                        { name: "Predictive Analytics", type: "analytics", description: "Forecast trends and demand" },
+                        { name: "Customer Journey", type: "analytics", description: "Track search to visit conversion" },
+                        { name: "Demographic Analysis", type: "analytics", description: "Understand local markets" },
+                        { name: "ROI per Location", type: "analytics", description: "Profitability metrics" }
+                    ]
+                },
+                {
+                    name: "Marketing & Engagement",
+                    type: "customer",
+                    description: "Drive traffic and customer loyalty",
+                    children: [
+                        { name: "Location-based Campaigns", type: "customer", description: "Geo-targeted marketing" },
+                        { name: "Loyalty Programs", type: "customer", description: "Points and rewards system" },
+                        { name: "SMS Marketing", type: "customer", description: "Text campaigns per store" },
+                        { name: "Digital Coupons", type: "customer", description: "Store-specific offers" },
+                        { name: "Social Media Integration", type: "customer", description: "Post to all store accounts" },
+                        { name: "Review Management", type: "customer", description: "Monitor and respond to reviews" },
+                        { name: "Local SEO", type: "customer", description: "Optimize for local search" },
+                        { name: "Google My Business Sync", type: "customer", description: "Auto-update GMB listings" },
+                        { name: "Referral Programs", type: "customer", description: "Customer acquisition incentives" }
+                    ]
+                },
+                {
+                    name: "Financial Management",
+                    type: "operations",
+                    description: "Revenue and expense tracking",
+                    children: [
+                        { name: "POS Integration", type: "operations", description: "Sync with point of sale" },
+                        { name: "Sales by Location", type: "analytics", description: "Revenue reporting" },
+                        { name: "P&L per Store", type: "analytics", description: "Profitability analysis" },
+                        { name: "Expense Tracking", type: "operations", description: "Monitor store costs" },
+                        { name: "Payment Processing", type: "operations", description: "Handle transactions" },
+                        { name: "Invoice Generation", type: "operations", description: "Automated billing" },
+                        { name: "Budget Management", type: "operations", description: "Set and track budgets" },
+                        { name: "Financial Forecasting", type: "analytics", description: "Project future revenue" }
+                    ]
+                },
+                {
+                    name: "Supply Chain & Logistics",
+                    type: "operations",
+                    description: "Distribution and delivery optimization",
+                    children: [
+                        { name: "Route Optimization", type: "gap", description: "🎯 AI-powered delivery routing" },
+                        { name: "Fleet Management", type: "operations", description: "Track delivery vehicles" },
+                        { name: "Delivery Tracking", type: "operations", description: "Real-time shipment status" },
+                        { name: "Warehouse Management", type: "operations", description: "Distribution center ops" },
+                        { name: "Return Management", type: "operations", description: "Handle product returns" },
+                        { name: "Proof of Delivery", type: "operations", description: "Digital signature capture" },
+                        { name: "Quality Control", type: "operations", description: "Inspection workflows" },
+                        { name: "Supplier Performance", type: "analytics", description: "Vendor scorecards" }
+                    ]
+                },
+                {
+                    name: "Unique Differentiators",
+                    type: "gap",
+                    description: "🎯 Features that set us apart from competitors",
+                    children: [
+                        { name: "Unified Customer Identity", type: "gap", description: "🎯 Recognize customers across all locations" },
+                        { name: "Inter-store Collaboration", type: "gap", description: "🎯 Share inventory and best practices" },
+                        { name: "Dynamic Territory Management", type: "gap", description: "🎯 Auto-assign sales territories" },
+                        { name: "Predictive Customer Needs", type: "gap", description: "🎯 Proactive engagement based on behavior" },
+                        { name: "Crisis Management", type: "gap", description: "🎯 Emergency response coordination" },
+                        { name: "Sustainability Tracking", type: "gap", description: "🎯 Carbon footprint and ESG metrics" },
+                        { name: "Franchise Compliance", type: "gap", description: "🎯 Automated brand standard checks" },
+                        { name: "Customer-sourced Requests", type: "gap", description: "🎯 Let customers vote on new locations" },
+                        { name: "Local Partnerships", type: "gap", description: "🎯 Collaborate with nearby businesses" }
+                    ]
+                },
+                {
+                    name: "Compliance & Security",
+                    type: "operations",
+                    description: "Data protection and regulatory compliance",
+                    children: [
+                        { name: "Role-based Access", type: "operations", description: "Granular permissions" },
+                        { name: "Audit Logs", type: "operations", description: "Track all system changes" },
+                        { name: "GDPR Compliance", type: "operations", description: "Data privacy tools" },
+                        { name: "PCI DSS", type: "operations", description: "Payment security standards" },
+                        { name: "Health & Safety", type: "operations", description: "Compliance checklists" },
+                        { name: "License Management", type: "operations", description: "Track permits and certifications" },
+                        { name: "Incident Documentation", type: "operations", description: "Report and track issues" }
+                    ]
+                },
+                {
+                    name: "Integration & API",
+                    type: "core",
+                    description: "Connect with existing systems",
+                    children: [
+                        { name: "REST API", type: "core", description: "Full API access" },
+                        { name: "Webhooks", type: "core", description: "Real-time event notifications" },
+                        { name: "POS Integration", type: "core", description: "Square, Clover, etc." },
+                        { name: "CRM Integration", type: "core", description: "Salesforce, HubSpot" },
+                        { name: "Accounting Integration", type: "core", description: "QuickBooks, Xero" },
+                        { name: "E-commerce Integration", type: "core", description: "Shopify, WooCommerce" },
+                        { name: "Marketing Automation", type: "core", description: "Mailchimp, Klaviyo" },
+                        { name: "App Marketplace", type: "core", description: "3rd party extensions" }
+                    ]
+                }
+            ]
+        };
+
+        const width = window.innerWidth - 40;
+        const height = 2000;
+
+        const svg = d3.select("#mindmap")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${width / 2}, 50)`);
+
+        const tree = d3.tree()
+            .size([width - 200, height - 200])
+            .separation((a, b) => (a.parent == b.parent ? 1 : 1.2));
+
+        const root = d3.hierarchy(data);
+        tree(root);
+
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+
+        svg.call(zoom);
+
+        const colorMap = {
+            root: "#2d3748",
+            core: "#667eea",
+            customer: "#f093fb",
+            operations: "#4facfe",
+            analytics: "#43e97b",
+            gap: "#fa709a"
+        };
+
+        const link = g.selectAll(".link")
+            .data(root.links())
+            .enter().append("path")
+            .attr("class", "link")
+            .attr("d", d3.linkVertical()
+                .x(d => d.x)
+                .y(d => d.y));
+
+        const node = g.selectAll(".node")
+            .data(root.descendants())
+            .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", d => `translate(${d.x},${d.y})`);
+
+        node.append("circle")
+            .attr("r", d => d.depth === 0 ? 20 : d.depth === 1 ? 12 : 8)
+            .style("fill", d => colorMap[d.data.type] || "#999")
+            .style("stroke", d => d3.color(colorMap[d.data.type] || "#999").darker());
+
+        node.append("text")
+            .attr("dy", d => d.depth === 0 ? -25 : d.depth === 1 ? -17 : -12)
+            .attr("text-anchor", "middle")
+            .style("font-size", d => d.depth === 0 ? "16px" : d.depth === 1 ? "13px" : "11px")
+            .style("font-weight", d => d.depth <= 1 ? "700" : "500")
+            .text(d => d.data.name);
+
+        const tooltip = d3.select("#tooltip");
+
+        node.on("mouseover", function(event, d) {
+            tooltip
+                .style("opacity", 1)
+                .html(`<strong>${d.data.name}</strong><br>${d.data.description || ''}`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        })
+        .on("mouseout", function() {
+            tooltip.style("opacity", 0);
+        });
+
+        let collapsed = new Set();
+
+        node.on("click", function(event, d) {
+            if (d.children || d._children) {
+                if (collapsed.has(d)) {
+                    d.children = d._children;
+                    d._children = null;
+                    collapsed.delete(d);
+                } else {
+                    d._children = d.children;
+                    d.children = null;
+                    collapsed.add(d);
+                }
+                update();
+            }
+        });
+
+        function update() {
+            tree(root);
+            
+            const t = d3.transition().duration(750);
+
+            link.transition(t)
+                .attr("d", d3.linkVertical()
+                    .x(d => d.x)
+                    .y(d => d.y));
+
+            node.transition(t)
+                .attr("transform", d => `translate(${d.x},${d.y})`);
+        }
+
+        function expandAll() {
+            root.descendants().forEach(d => {
+                if (d._children) {
+                    d.children = d._children;
+                    d._children = null;
+                    collapsed.delete(d);
+                }
+            });
+            update();
+        }
+
+        function collapseAll() {
+            root.descendants().forEach(d => {
+                if (d.depth > 0 && d.children) {
+                    d._children = d.children;
+                    d.children = null;
+                    collapsed.add(d);
+                }
+            });
+            update();
+        }
+
+        function resetZoom() {
+            svg.transition().duration(750).call(
+                zoom.transform,
+                d3.zoomIdentity.translate(width / 2, 50).scale(1)
+            );
+        }
+
+        function downloadSVG() {
+            const svgData = document.getElementById("mindmap").outerHTML;
+            const blob = new Blob([svgData], { type: "image/svg+xml" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "retail-erp-mindmap.svg";
+            link.click();
+        }
+    </script>
+</body>
+</html>
