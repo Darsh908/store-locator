@@ -31,39 +31,142 @@ const mapOptions = {
     { elementType: "geometry", stylers: [{ color: "#1d2c4d" }] },
     { elementType: "labels.text.fill", stylers: [{ color: "#8ec3b9" }] },
     { elementType: "labels.text.stroke", stylers: [{ color: "#1a3646" }] },
-    { featureType: "administrative.country", elementType: "geometry.stroke", stylers: [{ color: "#4b6878" }] },
-    { featureType: "administrative.land_parcel", elementType: "labels.text.fill", stylers: [{ color: "#64779e" }] },
-    { featureType: "administrative.province", elementType: "geometry.stroke", stylers: [{ color: "#4b6878" }] },
-    { featureType: "landscape.man_made", elementType: "geometry.stroke", stylers: [{ color: "#334e87" }] },
-    { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: "#023e58" }] },
-    { featureType: "poi", elementType: "geometry", stylers: [{ color: "#283d6a" }] },
-    { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#6f9ba5" }] },
-    { featureType: "poi", elementType: "labels.text.stroke", stylers: [{ color: "#1d2c4d" }] },
-    { featureType: "poi.park", elementType: "geometry.fill", stylers: [{ color: "#023e58" }] },
-    { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#3C7680" }] },
-    { featureType: "road", elementType: "geometry", stylers: [{ color: "#304a7d" }] },
-    { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#98a5be" }] },
-    { featureType: "road", elementType: "labels.text.stroke", stylers: [{ color: "#1d2c4d" }] },
-    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#2c6675" }] },
-    { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#255763" }] },
-    { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#b0d5ce" }] },
-    { featureType: "road.highway", elementType: "labels.text.stroke", stylers: [{ color: "#023e58" }] },
-    { featureType: "transit", elementType: "labels.text.fill", stylers: [{ color: "#98a5be" }] },
-    { featureType: "transit", elementType: "labels.text.stroke", stylers: [{ color: "#1d2c4d" }] },
-    { featureType: "transit.line", elementType: "geometry.fill", stylers: [{ color: "#283d6a" }] },
-    { featureType: "transit.station", elementType: "geometry", stylers: [{ color: "#3a4762" }] },
-    { featureType: "water", elementType: "geometry", stylers: [{ color: "#0e1626" }] },
-    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#4e6d70" }] },
+    {
+      featureType: "administrative.country",
+      elementType: "geometry.stroke",
+      stylers: [{ color: "#4b6878" }],
+    },
+    {
+      featureType: "administrative.land_parcel",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#64779e" }],
+    },
+    {
+      featureType: "administrative.province",
+      elementType: "geometry.stroke",
+      stylers: [{ color: "#4b6878" }],
+    },
+    {
+      featureType: "landscape.man_made",
+      elementType: "geometry.stroke",
+      stylers: [{ color: "#334e87" }],
+    },
+    {
+      featureType: "landscape.natural",
+      elementType: "geometry",
+      stylers: [{ color: "#023e58" }],
+    },
+    {
+      featureType: "poi",
+      elementType: "geometry",
+      stylers: [{ color: "#283d6a" }],
+    },
+    {
+      featureType: "poi",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#6f9ba5" }],
+    },
+    {
+      featureType: "poi",
+      elementType: "labels.text.stroke",
+      stylers: [{ color: "#1d2c4d" }],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "geometry.fill",
+      stylers: [{ color: "#023e58" }],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#3C7680" }],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [{ color: "#304a7d" }],
+    },
+    {
+      featureType: "road",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#98a5be" }],
+    },
+    {
+      featureType: "road",
+      elementType: "labels.text.stroke",
+      stylers: [{ color: "#1d2c4d" }],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "geometry",
+      stylers: [{ color: "#2c6675" }],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "geometry.stroke",
+      stylers: [{ color: "#255763" }],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#b0d5ce" }],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "labels.text.stroke",
+      stylers: [{ color: "#023e58" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#98a5be" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.text.stroke",
+      stylers: [{ color: "#1d2c4d" }],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "geometry.fill",
+      stylers: [{ color: "#283d6a" }],
+    },
+    {
+      featureType: "transit.station",
+      elementType: "geometry",
+      stylers: [{ color: "#3a4762" }],
+    },
+    {
+      featureType: "water",
+      elementType: "geometry",
+      stylers: [{ color: "#0e1626" }],
+    },
+    {
+      featureType: "water",
+      elementType: "labels.text.fill",
+      stylers: [{ color: "#4e6d70" }],
+    },
   ],
 };
 
 // Filter Dropdown Component with smart positioning
-function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, onClose, isLast }) {
+function FilterDropdown({
+  filter,
+  options,
+  value,
+  onChange,
+  isOpen,
+  onToggle,
+  onClose,
+  isLast,
+}) {
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
-  const [position, setPosition] = useState('left');
+  const [position, setPosition] = useState("left");
 
-  const hasValue = value && (Array.isArray(value) ? value.length > 0 : value !== "" && value !== false);
+  const hasValue =
+    value &&
+    (Array.isArray(value) ? value.length > 0 : value !== "" && value !== false);
 
   // Calculate position when dropdown opens
   useEffect(() => {
@@ -71,12 +174,12 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
       const rect = buttonRef.current.getBoundingClientRect();
       const windowWidth = window.innerWidth;
       const dropdownWidth = 280;
-      
+
       // If dropdown would overflow right side, align to right
       if (rect.left + dropdownWidth > windowWidth - 20) {
-        setPosition('right');
+        setPosition("right");
       } else {
-        setPosition('left');
+        setPosition("left");
       }
     }
   }, [isOpen]);
@@ -118,55 +221,109 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
           onToggle();
         }}
         className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2 border ${
-          hasValue 
-            ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-lg shadow-indigo-500/10' 
-            : 'bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60 hover:border-slate-600'
+          hasValue
+            ? "bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-lg shadow-indigo-500/10"
+            : "bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60 hover:border-slate-600"
         }`}
       >
         {/* Filter type icon */}
         {filter.filterType === "select" && (
-          <svg className="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+          <svg
+            className="w-4 h-4 opacity-60"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+            />
           </svg>
         )}
         {filter.filterType === "multiselect" && (
-          <svg className="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          <svg
+            className="w-4 h-4 opacity-60"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+            />
           </svg>
         )}
         {filter.filterType === "text" && (
-          <svg className="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            className="w-4 h-4 opacity-60"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         )}
         {filter.filterType === "checkbox" && (
-          <svg className="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            className="w-4 h-4 opacity-60"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
         )}
-        
+
         <span>{filter.displayName}</span>
-        
+
         {displayValue && (
-          <span className={`px-2 py-0.5 rounded-md text-xs font-semibold ${
-            filter.filterType === "multiselect" 
-              ? "bg-indigo-500 text-white" 
-              : "bg-indigo-500/30 text-indigo-200"
-          }`}>
+          <span
+            className={`px-2 py-0.5 rounded-md text-xs font-semibold ${
+              filter.filterType === "multiselect"
+                ? "bg-indigo-500 text-white"
+                : "bg-indigo-500/30 text-indigo-200"
+            }`}
+          >
             {displayValue}
           </span>
         )}
-        
-        <svg className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+
+        <svg
+          className={`w-4 h-4 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
       {/* Dropdown Panel - Solid background for visibility */}
       {isOpen && (
-        <div 
+        <div
           className={`absolute top-full mt-2 z-50 animate-fade-in ${
-            position === 'right' ? 'right-0' : 'left-0'
+            position === "right" ? "right-0" : "left-0"
           }`}
           style={{ minWidth: filter.filterType === "text" ? "300px" : "260px" }}
         >
@@ -175,16 +332,27 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
             {/* Header */}
             <div className="px-4 py-3 border-b border-slate-700/50 bg-slate-800/50 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-white">{filter.displayName}</span>
-                <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                  filter.filterType === "select" ? "bg-blue-500/20 text-blue-400" :
-                  filter.filterType === "multiselect" ? "bg-purple-500/20 text-purple-400" :
-                  filter.filterType === "text" ? "bg-emerald-500/20 text-emerald-400" :
-                  "bg-amber-500/20 text-amber-400"
-                }`}>
-                  {filter.filterType === "select" ? "Single" :
-                   filter.filterType === "multiselect" ? "Multi" :
-                   filter.filterType === "text" ? "Search" : "Toggle"}
+                <span className="text-sm font-semibold text-white">
+                  {filter.displayName}
+                </span>
+                <span
+                  className={`px-2 py-0.5 rounded text-xs font-medium ${
+                    filter.filterType === "select"
+                      ? "bg-blue-500/20 text-blue-400"
+                      : filter.filterType === "multiselect"
+                      ? "bg-purple-500/20 text-purple-400"
+                      : filter.filterType === "text"
+                      ? "bg-emerald-500/20 text-emerald-400"
+                      : "bg-amber-500/20 text-amber-400"
+                  }`}
+                >
+                  {filter.filterType === "select"
+                    ? "Single"
+                    : filter.filterType === "multiselect"
+                    ? "Multi"
+                    : filter.filterType === "text"
+                    ? "Search"
+                    : "Toggle"}
                 </span>
               </div>
               {hasValue && (
@@ -192,8 +360,18 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                   onClick={clearFilter}
                   className="text-xs text-slate-400 hover:text-white transition-colors flex items-center gap-1"
                 >
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                   Clear
                 </button>
@@ -211,13 +389,21 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                       onClose();
                     }}
                     className={`w-full text-left px-3 py-2.5 rounded-xl text-sm transition-all flex items-center gap-3 ${
-                      !value ? 'bg-indigo-500/20 text-white border border-indigo-500/30' : 'text-slate-300 hover:bg-slate-700/50'
+                      !value
+                        ? "bg-indigo-500/20 text-white border border-indigo-500/30"
+                        : "text-slate-300 hover:bg-slate-700/50"
                     }`}
                   >
-                    <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                      !value ? 'border-indigo-500 bg-indigo-500' : 'border-slate-500'
-                    }`}>
-                      {!value && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
+                    <span
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                        !value
+                          ? "border-indigo-500 bg-indigo-500"
+                          : "border-slate-500"
+                      }`}
+                    >
+                      {!value && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+                      )}
                     </span>
                     All Options
                   </button>
@@ -229,13 +415,21 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                         onClose();
                       }}
                       className={`w-full text-left px-3 py-2.5 rounded-xl text-sm transition-all flex items-center gap-3 ${
-                        value === option ? 'bg-indigo-500/20 text-white border border-indigo-500/30' : 'text-slate-300 hover:bg-slate-700/50'
+                        value === option
+                          ? "bg-indigo-500/20 text-white border border-indigo-500/30"
+                          : "text-slate-300 hover:bg-slate-700/50"
                       }`}
                     >
-                      <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        value === option ? 'border-indigo-500 bg-indigo-500' : 'border-slate-500'
-                      }`}>
-                        {value === option && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
+                      <span
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                          value === option
+                            ? "border-indigo-500 bg-indigo-500"
+                            : "border-slate-500"
+                        }`}
+                      >
+                        {value === option && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        )}
                       </span>
                       {option}
                     </button>
@@ -249,17 +443,29 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                   {Array.isArray(value) && value.length > 0 && (
                     <div className="mb-3 flex flex-wrap gap-1.5">
                       {value.map((v) => (
-                        <span 
+                        <span
                           key={v}
                           className="inline-flex items-center gap-1 px-2 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg text-xs border border-indigo-500/30"
                         >
                           {v}
-                          <button 
-                            onClick={() => onChange(value.filter(x => x !== v))}
+                          <button
+                            onClick={() =>
+                              onChange(value.filter((x) => x !== v))
+                            }
                             className="hover:text-white"
                           >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
                             </svg>
                           </button>
                         </span>
@@ -270,41 +476,57 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                     {options.map((option) => {
                       const isChecked = value?.includes(option);
                       return (
-                        <label 
-                          key={option} 
+                        <div
+                          key={option}
+                          onClick={() => {
+                            const current = value || [];
+                            const newValue = isChecked
+                              ? current.filter((v) => v !== option)
+                              : [...current, option];
+                            onChange(newValue);
+                          }}
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm cursor-pointer transition-all ${
-                            isChecked ? 'bg-purple-500/15' : 'hover:bg-slate-700/50'
+                            isChecked
+                              ? "bg-purple-500/15"
+                              : "hover:bg-slate-700/50"
                           }`}
                         >
-                          <span className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-                            isChecked 
-                              ? 'bg-gradient-to-br from-purple-500 to-indigo-600 border-purple-500' 
-                              : 'border-slate-500 bg-slate-700/50'
-                          }`}>
+                          <span
+                            className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
+                              isChecked
+                                ? "bg-gradient-to-br from-purple-500 to-indigo-600 border-purple-500"
+                                : "border-slate-500 bg-slate-700/50"
+                            }`}
+                          >
                             {isChecked && (
-                              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              <svg
+                                className="w-3 h-3 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={3}
+                                  d="M5 13l4 4L19 7"
+                                />
                               </svg>
                             )}
                           </span>
-                          <span className={isChecked ? 'text-white font-medium' : 'text-slate-300'}>{option}</span>
-                        </label>
+                          <span
+                            className={
+                              isChecked
+                                ? "text-white font-medium"
+                                : "text-slate-300"
+                            }
+                          >
+                            {option}
+                          </span>
+                        </div>
                       );
                     })}
                   </div>
-                  <input
-                    type="checkbox"
-                    className="hidden"
-                    checked={false}
-                    onChange={(e) => {
-                      const option = e.target.value;
-                      const current = value || [];
-                      const newValue = e.target.checked 
-                        ? [...current, option] 
-                        : current.filter((v) => v !== option);
-                      onChange(newValue);
-                    }}
-                  />
                 </div>
               )}
 
@@ -320,8 +542,18 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                       autoFocus
                       className="w-full px-4 py-3 pl-11 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all"
                     />
-                    <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <svg
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
                     </svg>
                   </div>
                   {value && (
@@ -342,18 +574,22 @@ function FilterDropdown({ filter, options, value, onChange, isOpen, onToggle, on
                     <button
                       onClick={() => onChange(!value)}
                       className={`relative w-14 h-8 rounded-full transition-all duration-300 ${
-                        value 
-                          ? 'bg-gradient-to-r from-amber-500 to-orange-500' 
-                          : 'bg-slate-600'
+                        value
+                          ? "bg-gradient-to-r from-amber-500 to-orange-500"
+                          : "bg-slate-600"
                       }`}
                     >
-                      <span className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 ${
-                        value ? 'left-7' : 'left-1'
-                      }`}></span>
+                      <span
+                        className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 ${
+                          value ? "left-7" : "left-1"
+                        }`}
+                      ></span>
                     </button>
                   </label>
                   <p className="mt-3 text-xs text-slate-500">
-                    {value ? "Filter is active" : "Toggle to enable this filter"}
+                    {value
+                      ? "Filter is active"
+                      : "Toggle to enable this filter"}
                   </p>
                 </div>
               )}
@@ -381,7 +617,7 @@ export default function StoreLocatorPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Geospatial states
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
@@ -401,13 +637,18 @@ export default function StoreLocatorPage() {
   // Handle Autocomplete initialization
   useEffect(() => {
     const initAutocomplete = () => {
-      if (typeof window !== "undefined" && window.google?.maps?.places && !autocompleteService.current) {
-        autocompleteService.current = new window.google.maps.places.AutocompleteService();
+      if (
+        typeof window !== "undefined" &&
+        window.google?.maps?.places &&
+        !autocompleteService.current
+      ) {
+        autocompleteService.current =
+          new window.google.maps.places.AutocompleteService();
       }
     };
 
     initAutocomplete();
-    
+
     // Also try to initialize when loading changes, just in case
     const timer = setTimeout(initAutocomplete, 1000);
     return () => clearTimeout(timer);
@@ -426,7 +667,10 @@ export default function StoreLocatorPage() {
       autocompleteService.current.getPlacePredictions(
         { input: val },
         (results, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
+          if (
+            status === window.google.maps.places.PlacesServiceStatus.OK &&
+            results
+          ) {
             setPredictions(results);
             setShowPredictions(true);
           }
@@ -449,7 +693,7 @@ export default function StoreLocatorPage() {
         setLatitude(newLat);
         setLongitude(newLng);
         setMapCenter({ lat: newLat, lng: newLng });
-        
+
         if (map) {
           map.panTo({ lat: newLat, lng: newLng });
           map.setZoom(12);
@@ -483,12 +727,12 @@ export default function StoreLocatorPage() {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.target.closest('.filter-dropdown')) {
+      if (!e.target.closest(".filter-dropdown")) {
         setOpenDropdown(null);
       }
     };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const fetchStoreLocator = async () => {
@@ -497,7 +741,7 @@ export default function StoreLocatorPage() {
       if (latitude && longitude) {
         url += `?lat=${latitude}&lng=${longitude}&radius=${radius}`;
       }
-      
+
       const res = await fetch(url);
       if (!res.ok) {
         const errorData = await res.json();
@@ -581,7 +825,6 @@ export default function StoreLocatorPage() {
 
     // Text search filter removed because we now use geospatial search in the main bar
 
-
     filters.forEach((filter) => {
       if (!filter.isActive) return;
       const filterValue = filterValues[filter.fieldName];
@@ -590,16 +833,27 @@ export default function StoreLocatorPage() {
       if (Array.isArray(filterValue) && filterValue.length === 0) return;
 
       filtered = filtered.filter((store) => {
-        let fieldValue = store[filter.fieldName] || (store.customData && typeof store.customData === "object" && store.customData[filter.fieldName]);
+        let fieldValue =
+          store[filter.fieldName] ||
+          (store.customData &&
+            typeof store.customData === "object" &&
+            store.customData[filter.fieldName]);
         if (fieldValue === null || fieldValue === undefined) return false;
         const valueStr = String(fieldValue).toLowerCase();
 
         switch (filter.filterType) {
-          case "select": return valueStr === String(filterValue).toLowerCase();
-          case "multiselect": return Array.isArray(filterValue) && filterValue.includes(fieldValue);
-          case "text": return valueStr.includes(String(filterValue).toLowerCase());
-          case "checkbox": return filterValue === true;
-          default: return true;
+          case "select":
+            return valueStr === String(filterValue).toLowerCase();
+          case "multiselect":
+            return (
+              Array.isArray(filterValue) && filterValue.includes(fieldValue)
+            );
+          case "text":
+            return valueStr.includes(String(filterValue).toLowerCase());
+          case "checkbox":
+            return filterValue === true;
+          default:
+            return true;
         }
       });
     });
@@ -607,12 +861,18 @@ export default function StoreLocatorPage() {
     setStores(filtered);
   }, [allStores, searchQuery, filterValues, filters]);
 
-  const validStores = stores.filter((store) => store.latitude && store.longitude);
+  const validStores = stores.filter(
+    (store) => store.latitude && store.longitude
+  );
 
   const getFilterOptions = (filter) => {
     const values = new Set();
     allStores.forEach((store) => {
-      const fieldValue = store[filter.fieldName] || (store.customData && typeof store.customData === "object" && store.customData[filter.fieldName]);
+      const fieldValue =
+        store[filter.fieldName] ||
+        (store.customData &&
+          typeof store.customData === "object" &&
+          store.customData[filter.fieldName]);
       if (fieldValue !== null && fieldValue !== undefined) {
         values.add(String(fieldValue));
       }
@@ -624,7 +884,12 @@ export default function StoreLocatorPage() {
     let count = 0;
     Object.keys(filterValues).forEach((key) => {
       const value = filterValues[key];
-      if (value && (Array.isArray(value) ? value.length > 0 : value !== "" && value !== false)) {
+      if (
+        value &&
+        (Array.isArray(value)
+          ? value.length > 0
+          : value !== "" && value !== false)
+      ) {
         count++;
       }
     });
@@ -663,8 +928,18 @@ export default function StoreLocatorPage() {
       <div className="w-full h-screen flex items-center justify-center bg-mesh p-4">
         <div className="text-center max-w-md">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            <svg
+              className="w-10 h-10 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Unable to Load</h1>
@@ -685,11 +960,23 @@ export default function StoreLocatorPage() {
       <div className="w-full h-screen flex items-center justify-center bg-mesh p-4">
         <div className="text-center max-w-md">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            <svg
+              className="w-10 h-10 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Configuration Error</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">
+            Configuration Error
+          </h1>
           <p className="text-slate-400">Google Maps API key not configured</p>
         </div>
       </div>
@@ -701,8 +988,18 @@ export default function StoreLocatorPage() {
       <div className="w-full h-screen flex items-center justify-center bg-mesh p-4">
         <div className="text-center max-w-2xl">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            <svg
+              className="w-10 h-10 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+              />
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-white mb-4">Maps Error</h1>
@@ -731,15 +1028,35 @@ export default function StoreLocatorPage() {
             {/* Logo & Title */}
             <div className="flex items-center gap-3 flex-shrink-0">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
               </div>
               <div>
-                <h1 className="text-lg md:text-xl font-bold text-white">{company?.name || "Store Locator"}</h1>
+                <h1 className="text-lg md:text-xl font-bold text-white">
+                  {company?.name || "Store Locator"}
+                </h1>
                 <p className="text-sm text-slate-400 hidden sm:block">
-                  <span className="text-indigo-400 font-semibold">{stores.length}</span> {stores.length === 1 ? "location" : "locations"}
+                  <span className="text-indigo-400 font-semibold">
+                    {stores.length}
+                  </span>{" "}
+                  {stores.length === 1 ? "location" : "locations"}
                 </p>
               </div>
             </div>
@@ -750,16 +1067,25 @@ export default function StoreLocatorPage() {
                 {filters.map((filter, index) => {
                   const options = getFilterOptions(filter);
                   const isLast = index >= filters.length - 2; // Last two filters align right
-                  
+
                   return (
                     <FilterDropdown
                       key={filter.id}
                       filter={filter}
                       options={options}
                       value={filterValues[filter.fieldName]}
-                      onChange={(newValue) => setFilterValues({ ...filterValues, [filter.fieldName]: newValue })}
+                      onChange={(newValue) =>
+                        setFilterValues({
+                          ...filterValues,
+                          [filter.fieldName]: newValue,
+                        })
+                      }
                       isOpen={openDropdown === filter.id}
-                      onToggle={() => setOpenDropdown(openDropdown === filter.id ? null : filter.id)}
+                      onToggle={() =>
+                        setOpenDropdown(
+                          openDropdown === filter.id ? null : filter.id
+                        )
+                      }
                       onClose={() => setOpenDropdown(null)}
                       isLast={isLast}
                     />
@@ -767,30 +1093,58 @@ export default function StoreLocatorPage() {
                 })}
 
                 {/* Radius Filter - Only show when location is selected */}
-                {(latitude && longitude) && (
+                {latitude && longitude && (
                   <div className="relative filter-dropdown">
                     <button
-                      onClick={() => setOpenDropdown(openDropdown === 'radius' ? null : 'radius')}
+                      onClick={() =>
+                        setOpenDropdown(
+                          openDropdown === "radius" ? null : "radius"
+                        )
+                      }
                       className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2 border ${
                         latitude && longitude
-                          ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-lg shadow-indigo-500/10'
-                          : 'bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60 hover:border-slate-600'
+                          ? "bg-indigo-500/20 text-indigo-300 border-indigo-500/40 shadow-lg shadow-indigo-500/10"
+                          : "bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60 hover:border-slate-600"
                       }`}
                     >
-                      <svg className="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <svg
+                        className="w-4 h-4 opacity-60"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
                       </svg>
                       <span>{radius} km Radius</span>
-                      <svg className={`w-4 h-4 transition-transform duration-200 ${openDropdown === 'radius' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          openDropdown === "radius" ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </button>
 
-                    {openDropdown === 'radius' && (
+                    {openDropdown === "radius" && (
                       <div className="absolute top-full left-0 mt-2 z-50 animate-fade-in w-64">
                         <div className="bg-gradient-to-b from-slate-800 to-slate-850 rounded-2xl shadow-2xl border border-slate-700/80 overflow-hidden">
                           <div className="px-4 py-3 border-b border-slate-700/50 bg-slate-800/50">
-                            <span className="text-sm font-semibold text-white">Search Radius</span>
+                            <span className="text-sm font-semibold text-white">
+                              Search Radius
+                            </span>
                           </div>
                           <div className="p-4">
                             <input
@@ -799,12 +1153,16 @@ export default function StoreLocatorPage() {
                               max="500"
                               step="5"
                               value={radius}
-                              onChange={(e) => setRadius(parseInt(e.target.value))}
+                              onChange={(e) =>
+                                setRadius(parseInt(e.target.value))
+                              }
                               className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                             />
                             <div className="flex justify-between mt-2 text-xs text-slate-400">
                               <span>5 km</span>
-                              <span className="text-indigo-400 font-bold">{radius} km</span>
+                              <span className="text-indigo-400 font-bold">
+                                {radius} km
+                              </span>
                               <span>500 km</span>
                             </div>
                           </div>
@@ -818,15 +1176,25 @@ export default function StoreLocatorPage() {
                 {(activeFilterCount > 0 || latitude) && (
                   <button
                     onClick={() => {
-                       clearAllFilters();
-                       setLatitude(null);
-                       setLongitude(null);
-                       setAddress("");
+                      clearAllFilters();
+                      setLatitude(null);
+                      setLongitude(null);
+                      setAddress("");
                     }}
                     className="ml-2 px-3 py-2 text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 hover:bg-slate-800 rounded-lg"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                     Clear All
                   </button>
@@ -844,11 +1212,26 @@ export default function StoreLocatorPage() {
           className="md:hidden absolute top-4 left-4 z-20 bg-slate-800 border border-slate-700 p-3 rounded-xl hover:bg-slate-700 transition-all shadow-lg"
           aria-label="Toggle sidebar"
         >
-          <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="h-5 w-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             {sidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -863,7 +1246,9 @@ export default function StoreLocatorPage() {
 
         {/* Sidebar */}
         <div
-          className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 absolute md:relative w-full md:w-96 bg-slate-900 border-r border-slate-800 flex flex-col z-20 md:z-auto transition-transform duration-300 ease-in-out h-full`}
+          className={`${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0 absolute md:relative w-full md:w-96 bg-slate-900 border-r border-slate-800 flex flex-col z-20 md:z-auto transition-transform duration-300 ease-in-out h-full`}
         >
           {/* Search Bar */}
           <div className="p-5 border-b border-slate-800">
@@ -874,8 +1259,18 @@ export default function StoreLocatorPage() {
                 className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
                 aria-label="Close sidebar"
               >
-                <svg className="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="h-5 w-5 text-slate-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -890,8 +1285,18 @@ export default function StoreLocatorPage() {
                 onFocus={() => address && setShowPredictions(true)}
                 className="w-full px-4 py-3 pl-11 pr-10 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 transition-all"
               />
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <svg
+                className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
               </svg>
               {address && (
                 <button
@@ -904,12 +1309,22 @@ export default function StoreLocatorPage() {
                   }}
                   className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded-full transition-colors text-slate-400 hover:text-white"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               )}
-              
+
               {/* Autocomplete Predictions */}
               {showPredictions && predictions.length > 0 && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden animate-fade-in">
@@ -919,13 +1334,32 @@ export default function StoreLocatorPage() {
                       onClick={() => selectPrediction(p)}
                       className="w-full text-left px-4 py-3 hover:bg-slate-700 transition-colors flex items-start gap-3 border-b border-slate-700/50 last:border-0"
                     >
-                      <svg className="w-5 h-5 text-slate-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <svg
+                        className="w-5 h-5 text-slate-500 mt-0.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
                       </svg>
                       <div>
-                        <p className="text-sm font-medium text-white">{p.structured_formatting.main_text}</p>
-                        <p className="text-xs text-slate-400">{p.structured_formatting.secondary_text}</p>
+                        <p className="text-sm font-medium text-white">
+                          {p.structured_formatting.main_text}
+                        </p>
+                        <p className="text-xs text-slate-400">
+                          {p.structured_formatting.secondary_text}
+                        </p>
                       </div>
                     </button>
                   ))}
@@ -934,7 +1368,8 @@ export default function StoreLocatorPage() {
             </div>
             {address && (
               <p className="text-xs text-slate-500 mt-3">
-                Searching near <span className="text-indigo-400 font-bold">{address}</span>
+                Searching near{" "}
+                <span className="text-indigo-400 font-bold">{address}</span>
               </p>
             )}
           </div>
@@ -943,16 +1378,28 @@ export default function StoreLocatorPage() {
           {filters.length > 0 && (
             <div className="p-5 border-b border-slate-800 max-h-64 overflow-y-auto md:hidden">
               <h3 className="font-bold text-sm text-white mb-4 flex items-center gap-2">
-                <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                <svg
+                  className="w-4 h-4 text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                  />
                 </svg>
                 Filters
               </h3>
               <div className="space-y-4">
                 {/* Search Radius (Mobile) - Only show when location is selected */}
-                {(latitude && longitude) && (
+                {latitude && longitude && (
                   <div>
-                    <label className="block text-xs font-semibold text-slate-400 mb-2">Search Radius</label>
+                    <label className="block text-xs font-semibold text-slate-400 mb-2">
+                      Search Radius
+                    </label>
                     <div className="bg-slate-800 p-4 rounded-xl border border-slate-700">
                       <input
                         type="range"
@@ -965,7 +1412,9 @@ export default function StoreLocatorPage() {
                       />
                       <div className="flex justify-between mt-2 text-xs text-slate-400">
                         <span>5 km</span>
-                        <span className="text-indigo-400 font-bold">{radius} km</span>
+                        <span className="text-indigo-400 font-bold">
+                          {radius} km
+                        </span>
                         <span>500 km</span>
                       </div>
                     </div>
@@ -976,34 +1425,58 @@ export default function StoreLocatorPage() {
                   const options = getFilterOptions(filter);
                   return (
                     <div key={filter.id}>
-                      <label className="block text-xs font-semibold text-slate-400 mb-2">{filter.displayName}</label>
+                      <label className="block text-xs font-semibold text-slate-400 mb-2">
+                        {filter.displayName}
+                      </label>
                       {filter.filterType === "select" && (
                         <select
                           value={filterValues[filter.fieldName] || ""}
-                          onChange={(e) => setFilterValues({ ...filterValues, [filter.fieldName]: e.target.value })}
+                          onChange={(e) =>
+                            setFilterValues({
+                              ...filterValues,
+                              [filter.fieldName]: e.target.value,
+                            })
+                          }
                           className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"
                         >
                           <option value="">All</option>
                           {options.map((option) => (
-                            <option key={option} value={option}>{option}</option>
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
                           ))}
                         </select>
                       )}
                       {filter.filterType === "multiselect" && (
                         <div className="space-y-2 max-h-32 overflow-y-auto">
                           {options.map((option) => (
-                            <label key={option} className="flex items-center text-sm cursor-pointer hover:bg-slate-800 p-2 rounded transition-colors">
+                            <label
+                              key={option}
+                              className="flex items-center text-sm cursor-pointer hover:bg-slate-800 p-2 rounded transition-colors"
+                            >
                               <input
                                 type="checkbox"
-                                checked={filterValues[filter.fieldName]?.includes(option) || false}
+                                checked={
+                                  filterValues[filter.fieldName]?.includes(
+                                    option
+                                  ) || false
+                                }
                                 onChange={(e) => {
-                                  const current = filterValues[filter.fieldName] || [];
-                                  const newValue = e.target.checked ? [...current, option] : current.filter((v) => v !== option);
-                                  setFilterValues({ ...filterValues, [filter.fieldName]: newValue });
+                                  const current =
+                                    filterValues[filter.fieldName] || [];
+                                  const newValue = e.target.checked
+                                    ? [...current, option]
+                                    : current.filter((v) => v !== option);
+                                  setFilterValues({
+                                    ...filterValues,
+                                    [filter.fieldName]: newValue,
+                                  });
                                 }}
                                 className="w-4 h-4 rounded border-slate-600 bg-slate-700 text-indigo-500 focus:ring-indigo-500"
                               />
-                              <span className="ml-2 text-slate-300">{option}</span>
+                              <span className="ml-2 text-slate-300">
+                                {option}
+                              </span>
                             </label>
                           ))}
                         </div>
@@ -1012,7 +1485,12 @@ export default function StoreLocatorPage() {
                         <input
                           type="text"
                           value={filterValues[filter.fieldName] || ""}
-                          onChange={(e) => setFilterValues({ ...filterValues, [filter.fieldName]: e.target.value })}
+                          onChange={(e) =>
+                            setFilterValues({
+                              ...filterValues,
+                              [filter.fieldName]: e.target.value,
+                            })
+                          }
                           placeholder={`Filter by ${filter.displayName}`}
                           className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm placeholder-slate-400 focus:outline-none focus:border-indigo-500"
                         />
@@ -1022,7 +1500,12 @@ export default function StoreLocatorPage() {
                           <input
                             type="checkbox"
                             checked={filterValues[filter.fieldName] || false}
-                            onChange={(e) => setFilterValues({ ...filterValues, [filter.fieldName]: e.target.checked })}
+                            onChange={(e) =>
+                              setFilterValues({
+                                ...filterValues,
+                                [filter.fieldName]: e.target.checked,
+                              })
+                            }
                             className="w-4 h-4 rounded border-slate-600 bg-slate-700 text-indigo-500 focus:ring-indigo-500"
                           />
                           <span className="ml-2 text-slate-300">Yes</span>
@@ -1040,12 +1523,28 @@ export default function StoreLocatorPage() {
             {validStores.length === 0 ? (
               <div className="p-8 text-center text-slate-500 flex flex-col items-center justify-center h-full">
                 <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <svg
+                    className="w-8 h-8 text-slate-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
                   </svg>
                 </div>
-                <p className="font-medium text-slate-400">{searchQuery ? "No locations found" : "No locations available"}</p>
-                {searchQuery && <p className="text-sm mt-1">Try adjusting your search</p>}
+                <p className="font-medium text-slate-400">
+                  {searchQuery
+                    ? "No locations found"
+                    : "No locations available"}
+                </p>
+                {searchQuery && (
+                  <p className="text-sm mt-1">Try adjusting your search</p>
+                )}
               </div>
             ) : (
               <div>
@@ -1059,23 +1558,48 @@ export default function StoreLocatorPage() {
                         : "border-l-transparent"
                     }`}
                   >
-                    <h3 className="font-semibold text-white mb-1">{store.name}</h3>
+                    <h3 className="font-semibold text-white mb-1">
+                      {store.name}
+                    </h3>
                     {store.address && (
-                      <p className="text-sm text-slate-400 mb-2 line-clamp-1">{store.address}</p>
+                      <p className="text-sm text-slate-400 mb-2 line-clamp-1">
+                        {store.address}
+                      </p>
                     )}
                     <div className="flex flex-wrap gap-2 text-xs">
-                      {store.distance !== undefined && store.distance !== null && (
-                        <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30">
-                          <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                          </svg>
-                          {parseFloat(store.distance).toFixed(1)} km
-                        </span>
-                      )}
+                      {store.distance !== undefined &&
+                        store.distance !== null && (
+                          <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30">
+                            <svg
+                              className="h-3 w-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M13 10V3L4 14h7v7l9-11h-7z"
+                              />
+                            </svg>
+                            {parseFloat(store.distance).toFixed(1)} km
+                          </span>
+                        )}
                       {store.phone && (
                         <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 text-slate-400">
-                          <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          <svg
+                            className="h-3 w-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                            />
                           </svg>
                           {store.phone}
                         </span>
@@ -1090,14 +1614,15 @@ export default function StoreLocatorPage() {
 
         {/* Map */}
         <div className="flex-1 relative">
-          <LoadScript 
-            googleMapsApiKey={apiKey} 
+          <LoadScript
+            googleMapsApiKey={apiKey}
             libraries={libraries}
-            onError={handleMapError} 
+            onError={handleMapError}
             onLoad={() => {
               setMapError(null);
               if (window.google?.maps?.places && !autocompleteService.current) {
-                autocompleteService.current = new window.google.maps.places.AutocompleteService();
+                autocompleteService.current =
+                  new window.google.maps.places.AutocompleteService();
               }
             }}
           >
@@ -1139,11 +1664,16 @@ export default function StoreLocatorPage() {
 
               {selectedStore && (
                 <InfoWindow
-                  position={{ lat: selectedStore.latitude, lng: selectedStore.longitude }}
+                  position={{
+                    lat: selectedStore.latitude,
+                    lng: selectedStore.longitude,
+                  }}
                   onCloseClick={() => setSelectedStore(null)}
                 >
                   <div className="p-4 max-w-xs">
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">{selectedStore.name}</h3>
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">
+                      {selectedStore.name}
+                    </h3>
                     {selectedStore.address && (
                       <p className="text-sm text-slate-600 mb-3 flex items-start gap-2">
                         <span className="mt-0.5">📍</span>
@@ -1153,23 +1683,42 @@ export default function StoreLocatorPage() {
                     {selectedStore.phone && (
                       <p className="text-sm text-slate-600 mb-2 flex items-center gap-2">
                         <span>📞</span>
-                        <a href={`tel:${selectedStore.phone}`} className="text-indigo-600 hover:underline">{selectedStore.phone}</a>
+                        <a
+                          href={`tel:${selectedStore.phone}`}
+                          className="text-indigo-600 hover:underline"
+                        >
+                          {selectedStore.phone}
+                        </a>
                       </p>
                     )}
                     {selectedStore.email && (
                       <p className="text-sm text-slate-600 mb-2 flex items-center gap-2">
                         <span>✉️</span>
-                        <a href={`mailto:${selectedStore.email}`} className="text-indigo-600 hover:underline">{selectedStore.email}</a>
+                        <a
+                          href={`mailto:${selectedStore.email}`}
+                          className="text-indigo-600 hover:underline"
+                        >
+                          {selectedStore.email}
+                        </a>
                       </p>
                     )}
                     {selectedStore.website && (
                       <p className="text-sm text-slate-600 mb-3 flex items-center gap-2">
                         <span>🌐</span>
-                        <a href={selectedStore.website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">Visit Website</a>
+                        <a
+                          href={selectedStore.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-indigo-600 hover:underline"
+                        >
+                          Visit Website
+                        </a>
                       </p>
                     )}
                     {selectedStore.description && (
-                      <p className="text-sm text-slate-600 mb-4 border-t border-slate-200 pt-3">{selectedStore.description}</p>
+                      <p className="text-sm text-slate-600 mb-4 border-t border-slate-200 pt-3">
+                        {selectedStore.description}
+                      </p>
                     )}
                     <button
                       onClick={() => handleGetDirections(selectedStore)}
